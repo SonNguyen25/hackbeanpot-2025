@@ -23,6 +23,18 @@ function Nav() {
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         <Image src="/logo.svg" alt="RoadTrip Companion Logo" width={150} height={50} />
         <div className="space-x-4">
+          <Link href="/" className="hover:text-green-400">
+            Home
+          </Link>
+          {/* <Link href="/friends" className="hover:text-green-400">
+            Friends Matching
+          </Link> */}
+          <Link href="/map" className="hover:text-green-400">
+            Eco Hotels & Restaurants
+          </Link>
+          {/* <Link href="/music" className="hover:text-green-400">
+            Music
+          </Link> */}
           <Link href="/login" className="text-primary hover:text-accent transition-colors">
             Login
           </Link>

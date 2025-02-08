@@ -10,7 +10,7 @@ export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="flex">
+    <div className="flex border border-green-500">
       {/* Sidebar for larger screens */}
       <motion.aside
         initial={{ x: -250 }}

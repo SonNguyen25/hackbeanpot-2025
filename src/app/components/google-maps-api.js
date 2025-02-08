@@ -193,14 +193,14 @@ export default function GoogleMapComponent() {
   return (
     <LoadScript googleMapsApiKey={googleMapsApiKey} libraries={["places"]} onLoad={() => setMapLoaded(true)}>
       <div className="absolute top-4 left-4 z-50 bg-white p-4 rounded-lg shadow-lg w-80">
-        <h3 className="font-bold mb-2">Get Directions</h3>
+        <h3 className="font-bold mb-2 text-green-500">Get Directions</h3>
         <div>
           <label className="text-gray-700">From:</label>
           <input
             type="text"
             value={userLocation ? "Your Location" : "Fetching Location..."}
             readOnly
-            className="w-full p-2 rounded border-gray-300"
+            className="w-full p-2 text-green-500 rounded border-gray-300"
           />
         </div>
         <div className="mt-2">
@@ -216,7 +216,7 @@ export default function GoogleMapComponent() {
             <input
               type="text"
               placeholder="Enter Destination"
-              className="w-full p-2 rounded border-gray-300"
+              className="w-full text-green-500 p-2 rounded border-gray-300"
             />
           </Autocomplete>
         </div>

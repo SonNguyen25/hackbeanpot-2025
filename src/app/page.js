@@ -9,25 +9,6 @@ import { useInView } from "react-intersection-observer";
 import GoogleMapComponent from "@/app/components/google-maps-api";
 import { useRouter } from "next/navigation";
 
-function Sidebar() {
-  return (
-    <aside className="w-64 h-screen fixed left-0 top-0 bg-black border-r shadow-lg p-6 flex flex-col justify-between">
-      <div>
-        <Image src="/logo.svg" alt="RoadTrip Companion Logo" width={200} height={80} />
-        <nav className="mt-6">
-          <ul className="space-y-4">
-            <li><Link href="/" className="text-gray-300 hover:text-white">Home</Link></li>
-            <li><Link href="/features" className="text-gray-300 hover:text-white">Features</Link></li>
-            <li><Link href="/plans" className="text-gray-300 hover:text-white">Plans</Link></li>
-            <li><Link href="/social" className="text-gray-300 hover:text-white">Social</Link></li>
-            <li><Link href="/flights" className="text-gray-300 hover:text-white">Flights</Link></li>
-          </ul>
-        </nav>
-      </div>
-    </aside>
-  );
-}
-
 function NavBar() {
   return (
     <div className="fixed top-0 left-64 right-0 bg-black shadow-md p-4 flex justify-end">
@@ -71,12 +52,10 @@ function FeatureCard({ title, description, icon }) {
 
 export default function Home() {
   return (
-    <div className="flex">
-      <Sidebar />
-      <div className="flex-1 min-h-screen bg-black">
+      <div className="bg-black">
         <NavBar />
         <HomeContent />
-      </div>
+ 
     </div>
   );
 }

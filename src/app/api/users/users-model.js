@@ -6,7 +6,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   createdAt: { type: Date, default: Date.now },
   interests: [{ type: String, enum: usersInterests }],
-  password: { type: String, default: 0 },
+  reward: { type: String, default: 0 },
 });
 
 export default mongoose.models.User || mongoose.model("User", UserSchema);

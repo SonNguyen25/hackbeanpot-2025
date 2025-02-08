@@ -1,116 +1,22 @@
-// import Image from "next/image"
-// import Link from "next/link"
-// import { MapPin, Music, Leaf, ChevronRight } from "lucide-react"
-// import { motion } from "framer-motion"
-// import { useInView } from "react-intersection-observer"
-
-// export default function Home() {
-//   return (
-    
-//     <main className="min-h-screen bg-gradient-to-b from-primary to-tertiary-light">
-//       <nav className="container mx-auto p-6">
-//         <div className="flex justify-between items-center">
-//           <Image src="/logo.svg" alt="RoadTrip Companion Logo" width={150} height={50} />
-//           <div className="space-x-4">
-//             <Link href="/login" className="text-primary-dark hover:text-primary transition-colors">
-//               Login
-//             </Link>
-//             <Link
-//               href="/register"
-//               className="bg-secondary text-white px-4 py-2 rounded-md hover:bg-secondary-dark transition-colors"
-//             >
-//               Register
-//             </Link>
-//           </div>
-//         </div>
-//       </nav>
-
-//       <section className="container mx-auto px-6 py-16 text-center">
-//         <h1 className="text-4xl md:text-6xl font-bold text-primary mb-4">Your Eco-Friendly Road Trip Companion</h1>
-//         <p className="text-xl text-primary-dark mb-8">
-//           Plan your journey, discover green destinations, and groove to your favorite tunes.
-//         </p>
-//         <Link
-//           href="/register"
-//           className="bg-secondary-dark text-white px-6 py-3 rounded-md text-lg hover:bg-secondary transition-colors"
-//         >
-//           Start Your Adventure
-//         </Link>
-//       </section>
-
-//       <section className="container mx-auto px-6 py-16">
-//         <h2 className="text-3xl font-bold text-center text-primary mb-12">Features</h2>
-//         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-//           <FeatureCard
-//             title="Eco-Friendly Routes"
-//             description="Discover the most environmentally conscious paths to your destination."
-//             icon={<MapPin className="w-12 h-12 text-secondary" />}
-//           />
-//           <FeatureCard
-//             title="Green Accommodations"
-//             description="Find and book sustainable hotels and lodgings along your route."
-//             icon={<Leaf className="w-12 h-12 text-secondary" />}
-//           />
-//           <FeatureCard
-//             title="Music Integration"
-//             description="Sync with Spotify and get personalized playlists for your journey."
-//             icon={<Music className="w-12 h-12 text-secondary" />}
-//           />
-//         </div>
-//       </section>
-
-//       <section className="bg-primary-light py-16">
-//         <div className="container mx-auto px-6 text-center">
-//           <h2 className="text-3xl font-bold text-white mb-4">Ready to Hit the Road?</h2>
-//           <p className="text-xl text-tertiary-light mb-8">
-//             Join RoadTrip Companion today and start planning your eco-friendly adventure!
-//           </p>
-//           <Link
-//             href="/register"
-//             className="bg-secondary text-white px-6 py-3 rounded-md text-lg hover:bg-secondary-dark transition-colors"
-//           >
-//             Sign Up Now
-//           </Link>
-//         </div>
-//       </section>
-
-//       <footer className="bg-primary text-white py-8">
-//         <div className="container mx-auto px-6 text-center">
-//           <p>&copy; 2023 RoadTrip Companion & EarthBeats. All rights reserved.</p>
-//         </div>
-//       </footer>
-//     </main>
-//   )
-// }
-
-// function FeatureCard({ title, description, icon }) {
-//   return (
-//     <div className="bg-white bg-opacity-20 p-6 rounded-lg shadow-md backdrop-filter backdrop-blur-lg">
-//       <div className="mb-4 flex justify-center">{icon}</div>
-//       <h3 className="text-xl font-semibold text-primary mb-2">{title}</h3>
-//       <p className="text-primary-dark">{description}</p>
-//     </div>
-//   )
-// }
-
-
-
 "use client"
 
-import Image from "next/image"
-import Link from "next/link"
-import { MapPin, Music, Leaf, ChevronRight } from "lucide-react"
-import { motion } from "framer-motion"
-import { useInView } from "react-intersection-observer"
+import Image from "next/image";
+import Link from "next/link";
+import { MapPin, Music, Leaf, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { useInView } from "react-intersection-observer";
 import GoogleMapComponent from "@/app/components/google-maps-api";
 
 function Nav() {
+ 
   return (
+      
     <motion.nav
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ type: "spring", stiffness: 100 }}
-      className="bg-white shadow-smooth sticky top-0 z-50"
+      className="bg-white shadow-md sticky top-0 z-50"
     >
       <div className="container mx-auto px-6 py-4 flex justify-between items-center">
         <Image src="/logo.svg" alt="RoadTrip Companion Logo" width={150} height={50} />
@@ -127,7 +33,7 @@ function Nav() {
         </div>
       </div>
     </motion.nav>
-  )
+  );
 }
 
 function Hero() {
@@ -145,7 +51,7 @@ function Hero() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="text-xl text-neutral-dark mb-8 max-w-2xl mx-auto"
+        className="text-xl text-primary-dark mb-8"
       >
         Plan your journey, discover green destinations, and groove to your favorite tunes.
       </motion.p>
@@ -161,139 +67,135 @@ function Hero() {
           Start Your Adventure
           <ChevronRight className="ml-2 group-hover:translate-x-1 transition-transform" />
         </Link>
-        <div>
-          <h1>Eco-Friendly Hotels & Restaurants</h1>
-          <GoogleMapComponent />
-        </div>
       </motion.div>
+      <GoogleMapComponent />
     </section>
-  )
+  );
 }
 
 function Features() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  })
-
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
+      transition: { staggerChildren: 0.2 },
     },
-  }
-
+  };
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: {
-        duration: 0.5,
-      },
+      transition: { duration: 0.5 },
     },
-  }
-
+  };
   return (
-    <section ref={ref} className="bg-neutral-light py-24">
-      <div className="container mx-auto px-6">
-        <h2 className="text-3xl font-bold text-center text-primary mb-16">Features</h2>
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate={inView ? "visible" : "hidden"}
-          className="grid grid-cols-1 md:grid-cols-3 gap-12"
-        >
-          <FeatureCard
-            title="Eco-Friendly Routes"
-            description="Discover the most environmentally conscious paths to your destination."
-            icon={<MapPin className="w-12 h-12 text-secondary" />}
-            variants={itemVariants}
-          />
-          <FeatureCard
-            title="Green Accommodations"
-            description="Find and book sustainable hotels and lodgings along your route."
-            icon={<Leaf className="w-12 h-12 text-secondary" />}
-            variants={itemVariants}
-          />
-          <FeatureCard
-            title="Music Integration"
-            description="Sync with Spotify and get personalized playlists for your journey."
-            icon={<Music className="w-12 h-12 text-secondary" />}
-            variants={itemVariants}
-          />
-        </motion.div>
-      </div>
+    <section ref={ref} className="container mx-auto px-6 py-16">
+      <h2 className="text-3xl font-bold text-center text-primary mb-12">Features</h2>
+      <motion.div
+        variants={containerVariants}
+        initial="hidden"
+        animate={inView ? "visible" : "hidden"}
+        className="grid grid-cols-1 md:grid-cols-3 gap-8"
+      >
+        <FeatureCard
+          title="Eco-Friendly Routes"
+          description="Discover the most environmentally conscious paths to your destination."
+          icon={<MapPin className="w-12 h-12 text-secondary" />}
+          variants={itemVariants}
+        />
+        <FeatureCard
+          title="Green Accommodations"
+          description="Find and book sustainable hotels and lodgings along your route."
+          icon={<Leaf className="w-12 h-12 text-secondary" />}
+          variants={itemVariants}
+        />
+        <FeatureCard
+          title="Music Integration"
+          description="Sync with Spotify and get personalized playlists for your journey."
+          icon={<Music className="w-12 h-12 text-secondary" />}
+          variants={itemVariants}
+        />
+      </motion.div>
     </section>
-  )
+  );
 }
 
 function FeatureCard({ title, description, icon, variants }) {
   return (
-    <motion.div
-      variants={variants}
-      className="bg-white p-8 rounded-lg shadow-smooth hover:shadow-lg transition-shadow duration-300"
-    >
-      <div className="mb-6 flex justify-center">{icon}</div>
-      <h3 className="text-xl font-semibold text-primary mb-4">{title}</h3>
-      <p className="text-neutral-dark">{description}</p>
+    <motion.div variants={variants} className="bg-white p-8 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+      <div className="mb-4 flex justify-center">{icon}</div>
+      <h3 className="text-xl font-semibold text-primary mb-2">{title}</h3>
+      <p className="text-primary-dark">{description}</p>
     </motion.div>
-  )
+  );
 }
 
 function CallToAction() {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  })
-
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 });
   return (
-    <section ref={ref} className="bg-accent text-white py-24">
+    <section ref={ref} className="bg-primary-light py-16">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5 }}
         className="container mx-auto px-6 text-center"
       >
-        <h2 className="text-3xl font-bold mb-6">Ready to Hit the Road?</h2>
-        <p className="text-xl mb-8 max-w-2xl mx-auto">
+        <h2 className="text-3xl font-bold text-white mb-4">Ready to Hit the Road?</h2>
+        <p className="text-xl text-tertiary-light mb-8">
           Join RoadTrip Companion today and start planning your eco-friendly adventure!
         </p>
         <Link
           href="/register"
-          className="bg-white text-accent px-8 py-3 rounded-md text-lg hover:bg-neutral-light transition-colors inline-flex items-center group"
+          className="bg-secondary text-white px-6 py-3 rounded-md text-lg hover:bg-secondary-dark transition-colors"
         >
           Sign Up Now
-          <ChevronRight className="ml-2 group-hover:translate-x-1 transition-transform" />
         </Link>
       </motion.div>
     </section>
-  )
+  );
 }
 
 function Footer() {
   return (
-    <footer className="bg-primary text-white py-12">
-      <div className="container mx-auto px-6 text-center">
+    <footer className="bg-primary text-white py-8">
+      <div className="text-center text-xl">
         <p>&copy; 2023 RoadTrip Companion & EarthBeats. All rights reserved.</p>
       </div>
     </footer>
-  )
+  );
 }
 
-
 export default function Home() {
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+
+  // Handle mouse movement, changing color on the screen
+  const handleMouseMove = (e) => {
+    setMousePosition({ x: e.clientX, y: e.clientY });
+  };
+
+  useEffect(() => {
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
+
   return (
-    <main className="min-h-screen bg-white text-primary">
+    <div className="min-h-screen bg-gradient-to-b from-primary to-tertiary-light relative">
+      {/* Background Effect */}
+      <div
+        className="pointer-events-none fixed inset-0 z-[-1]"
+        style={{
+          background: `radial-gradient(circle at ${mousePosition.x}px ${mousePosition.y}px, rgb(4 47 46), rgba(3, 7, 18, 0) 100%)`,
+        }}
+      ></div>
+
+      {/* Interactive Content */}
       <Nav />
       <Hero />
       <Features />
       <CallToAction />
       <Footer />
-    </main>
-  )
+    </div>
+  );
 }
-

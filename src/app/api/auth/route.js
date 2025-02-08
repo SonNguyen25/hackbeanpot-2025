@@ -26,11 +26,10 @@ const signUp = async (req, res)  => {
       name,
       email,
       password: hashedPassword,
+      location,
       interests,
       reward: 0, 
     });
-
-    await newUser.save();
 
     res.status(201).json({ user });
 

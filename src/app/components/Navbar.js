@@ -14,20 +14,15 @@ export default function Sidebar() {
   const isLandingPage = pathname === "/" || pathname === "/about";
 
   return (
-    <div className="flex">
+    <div className="flex border border-green-500">
       {/* Sidebar for larger screens */}
       <motion.aside
         initial={{ x: -250 }}
         animate={{ x: 0 }}
         className="bg-black hidden md:flex flex-col h-screen bg-primary text-white shadow-lg fixed left-0 top-0"
       >
-        <div className="p-6 flex flex-col items-center">
-          <Image
-            src="/logo.svg"
-            alt="RoadTrip Companion"
-            width={150}
-            height={50}
-          />
+        <div className="p-3 flex flex-col items-center">
+          <Image src="/logo.svg" alt="RoadTrip Companion" width={250} height={50} />
         </div>
 
         <nav className="flex flex-col mt-8 space-y-4 px-4">

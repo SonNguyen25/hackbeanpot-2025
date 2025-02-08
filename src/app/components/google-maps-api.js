@@ -214,14 +214,14 @@ export default function GoogleMapComponent() {
         <div className="flex-grow">
           <div className="flex flex-row-reverse h-screen">
             <div className="w-1/3 p-4 bg-white overflow-y-auto">
-              <h3 className="font-bold mb-2">Get Directions</h3>
+              <h3 className="font-bold mb-2 text-green-500">Get Directions</h3>
               <div>
                 <label className="text-gray-700">From:</label>
                 <input
                   type="text"
                   value={userLocation ? "Your Location" : "Fetching Location..."}
                   readOnly
-                  className="w-full p-2 rounded border-gray-300"
+                  className="w-full text-green-500 p-2 rounded border-gray-300"
                 />
               </div>
               <div className="mt-2">
@@ -240,6 +240,7 @@ export default function GoogleMapComponent() {
               <button onClick={handleAddStop} className="bg-green-600 text-white px-4 py-2 rounded-md mt-3 hover:bg-green-700 transition w-full">
                 Add Stop
               </button>
+
 
               {/* Display User Added Stops */}
               <div className="mt-4">

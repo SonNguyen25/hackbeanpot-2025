@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 
 function NavBar() {
   return (
-    <div className="fixed top-0 right-0 bg-black shadow-md p-4 flex justify-end">
+    <div className="fixed top-0 right-0 bg-black shadow-md flex justify-end">
       <div className="space-x-4">
         <Link href="/login" className="text-green-500 hover:text-white transition-colors">Login</Link>
         <Link href="/register" className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors">Register</Link>
@@ -22,7 +22,7 @@ function NavBar() {
 
 function HomeContent() {
   return (
-    <div className="ml-64 pt-16 p-6">
+    <div className="ml-60 pt-40 p-3">
       <section className="text-center">
         <h1 className="text-5xl font-bold text-green-500">Your Road Trip Companion</h1>
         <p className="text-lg text-gray-300 mt-4">Plan your journey, discover green destinations, and groove to your favorite tunes.</p>
@@ -42,7 +42,7 @@ function HomeContent() {
 
 function FeatureCard({ title, description, icon }) {
   return (
-    <div className="bg-black border shadow-md p-6 rounded-lg text-center">
+    <div className="bg-black border shadow-md p-3 rounded-lg text-center">
       <div className="mb-4 flex justify-center">{icon}</div>
       <h3 className="text-xl font-semibold text-gray-300">{title}</h3>
       <p className="text-gray-400">{description}</p>
@@ -52,10 +52,9 @@ function FeatureCard({ title, description, icon }) {
 
 export default function Home() {
   return (
-      <div className="bg-black">
+      <div>
         <NavBar />
         <HomeContent />
- 
     </div>
   );
 }

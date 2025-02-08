@@ -47,7 +47,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className="flex bg-white text-primary">
+      <body className="flex bg-black text-primary">
         <Sidebar />
         <main className="flex-grow p-6">{children}</main>
       </body>

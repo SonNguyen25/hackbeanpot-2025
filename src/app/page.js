@@ -11,7 +11,7 @@ import { useRouter } from "next/navigation";
 
 function NavBar() {
   return (
-    <div className="fixed top-0 left-64 right-0 bg-black shadow-md p-4 flex justify-end">
+    <div className="fixed top-0 right-0 bg-black shadow-md p-4 flex justify-end">
       <div className="space-x-4">
         <Link href="/login" className="text-green-500 hover:text-white transition-colors">Login</Link>
         <Link href="/register" className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition-colors">Register</Link>

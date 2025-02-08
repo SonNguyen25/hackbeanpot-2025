@@ -22,6 +22,18 @@ export default function LoginSidebar() {
     // yearOfExperience: 0,
     // sex: "",
   });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+    // Handle mouse movement, changing color on the screen
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+  
+    useEffect(() => {
+      window.addEventListener("mousemove", handleMouseMove);
+      return () => window.removeEventListener("mousemove", handleMouseMove);
+    }, []);
+  
 
   const signin = async (e) => {
     e.preventDefault(); // Prevents page refresh

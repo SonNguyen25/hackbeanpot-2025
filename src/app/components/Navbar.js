@@ -15,11 +15,10 @@ export default function Sidebar() {
       <motion.aside
         initial={{ x: -250 }}
         animate={{ x: 0 }}
-        transition={{ type: "spring", stiffness: 100 }}
-        className="hidden md:flex flex-col w-64 h-screen bg-primary text-white shadow-lg fixed left-0 top-0"
+        className="bg-black hidden md:flex flex-col h-screen bg-primary text-white shadow-lg fixed left-0 top-0"
       >
-        <div className="p-6 flex flex-col items-center">
-          <Image src="/logo.svg" alt="RoadTrip Companion" width={150} height={50} />
+        <div className="p-3 flex flex-col items-center">
+          <Image src="/logo.svg" alt="RoadTrip Companion" width={250} height={50} />
         </div>
 
         <nav className="flex flex-col mt-8 space-y-4 px-4">
@@ -60,7 +59,7 @@ export default function Sidebar() {
       )}
 
       {/* Page content with padding to avoid overlap */}
-      <div className="ml-64 w-full md:w-auto p-6">{/* Page content goes here */}</div>
+      <div className="w-full md:w-auto p-6">{/* Page content goes here */}</div>
     </div>
   );
 }

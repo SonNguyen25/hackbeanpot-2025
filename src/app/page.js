@@ -1,4 +1,5 @@
 import Image from "next/image";
+import GoogleMapComponent from "@/app/components/google-maps-api";
 
 export default function Home() {
   return (
@@ -48,6 +49,12 @@ export default function Home() {
             Read our docs
           </a>
         </div>
+
+        <div>
+          <h1>Eco-Friendly Hotels & Restaurants</h1>
+          <GoogleMapComponent />
+        </div>
+
       </main>
       <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
         <a

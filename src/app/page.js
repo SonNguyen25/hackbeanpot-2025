@@ -52,10 +52,9 @@ function FeatureCard({ title, description, icon }) {
 
 export default function Home() {
   return (
-      <div className="bg-black">
+      <div>
         <NavBar />
         <HomeContent />
- 
     </div>
   );
 }

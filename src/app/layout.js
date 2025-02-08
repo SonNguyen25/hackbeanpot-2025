@@ -40,10 +40,6 @@ export const metadata = {
   description: "Your eco-friendly road trip planner with music integration",
 };
 
-
-
-
-
 export default function RootLayout({ children }) {
   return (
     <html lang="en">

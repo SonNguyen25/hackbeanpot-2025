@@ -1,5 +1,5 @@
-import { connectToDatabase } from "@/app/api/db"; // Ensure this path is correct
-import User from "@/app/api/models/User"; // Ensure this path is correct
+import { connectToDatabase } from "@/app/api/connect-database";
+import User from "@/app/api/models/User"; 
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 

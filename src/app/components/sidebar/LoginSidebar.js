@@ -8,29 +8,42 @@ import Link from "next/link";
 export default function LoginSidebar() {
   const router = useRouter();
   const [credentials, setCredentials] = useState({
-    _id: "",
+    // _id: "",
     username: "",
     password: "",
-    firstName: "",
-    lastName: "",
-    displayName: "",
-    role: "USER",
-    email: "",
-    dob: new Date(), // Fix: Keep Date format
-    profilePicture: "",
-    bio: "",
-    yearOfExperience: 0,
-    sex: "",
+    // firstName: "",
+    // lastName: "",
+    // displayName: "",
+    // role: "USER",
+    // email: "",
+    // dob: new Date(), // Fix: Keep Date format
+    // profilePicture: "",
+    // bio: "",
+    // yearOfExperience: 0,
+    // sex: "",
   });
 
   const signin = async (e) => {
     e.preventDefault(); // Prevents page refresh
     try {
-      const user = await client.signin(credentials);
-      alert(`Welcome, ${user.displayName}!`); // Replace with toast notification
-      router.push("/Home/Community"); // Navigate to Home
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(credentials),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Login failed");
+      }
+
+      alert(`Welcome back!`);
+      router.push("/Home/Community"); // Redirect to Home
     } catch (error) {
-      alert("Login Failed! Try again."); // Replace with toast notification
+      alert(error.message || "Login failed. Try again.");
     }
   };
 

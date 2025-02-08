@@ -30,6 +30,8 @@
 import "./globals.css"
 import { Inter } from "next/font/google"
 import React from "react" 
+import Sidebar from "@/app/components/Navbar";
+
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -38,11 +40,19 @@ export const metadata = {
   description: "Your eco-friendly road trip planner with music integration",
 };
 
+
+
+
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="flex bg-white text-primary">
+        <Sidebar />
+        <main className="flex-grow p-6">{children}</main>
+      </body>
     </html>
   );
 }
+
 

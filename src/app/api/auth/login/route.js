@@ -1,7 +1,6 @@
 import { connectToDatabase } from "@/app/api/connect-database";
-import User from "@/app/api/models/User"; 
+import User from "@/app/api/models/User";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 
 export async function POST(req) {
   try {
@@ -21,10 +20,7 @@ export async function POST(req) {
       return new Response(JSON.stringify({ error: "Invalid credentials" }), { status: 401 });
     }
 
-    // Create JWT token
-    const token = jwt.sign({ id: user._id, email: user.email }, "your_secret_key", { expiresIn: "1h" });
-
-    return new Response(JSON.stringify({ message: "Login successful", token, user }), { status: 200 });
+    return new Response(JSON.stringify({ message: "Login successful", user }), { status: 200 });
   } catch (error) {
     console.error("Login error:", error);
     return new Response(JSON.stringify({ error: "Internal server error" }), { status: 500 });

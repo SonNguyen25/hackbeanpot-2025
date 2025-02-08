@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@react-google-maps/api": "^2.20.5",
+    "bcrypt": "^5.1.1",
     "framer-motion": "^12.4.1",
     "lucide-react": "^0.475.0",
     "next": "15.1.6",

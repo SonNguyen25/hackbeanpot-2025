@@ -6,9 +6,9 @@ export async function POST(req) {
   try {
     await connectToDatabase(); // Ensure MongoDB connection
 
-    const { name, email, phone, password, location, interests } = await req.json(); // Extract location properly
+    const { firstname, lastname, email, phone, password, location, interests } = await req.json(); // Extract location properly
 
-    if (!name || !email || !phone || !password || !location) {
+    if (!firstname || !lastname || !dob || !gender || !email || !phone || !password || !location) {
       return res.status(400).json({ error: "All fields are required" });
     }
 

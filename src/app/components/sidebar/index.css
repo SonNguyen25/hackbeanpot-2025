@@ -1,0 +1,74 @@
+.login-screen-bar {
+    height: 100vh;
+    width: 500px;
+    padding: 50px;
+    margin: 0px;
+    top: 0;
+    background-color: rgb(19, 19, 21);
+    padding-left: 25px; /* Half of the spacing between */
+    padding-right: 50px; /* Adjust as needed */
+    flex-grow: 1;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center horizontally */
+  }
+  .text-gradient {
+      background-image: linear-gradient(to bottom right, #c084fc, #db2777);
+      color: transparent;
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  .login-screen-header {
+    color: lightgrey;
+    margin: 0px;
+  }
+  .asterick {
+    color: rgb(210, 62, 62);
+  }
+  .form-group {
+    margin-bottom: 10px;
+  }
+  
+  .form-group input {
+    background-color: rgb(40, 40, 40) !important;
+    color: white !important;
+    border: 10px;
+  }
+  
+  .form-group label {
+    color: lightgrey;
+    font-size: 12px;
+  }
+  
+  .login-account-form a {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .login-screen-bar a {
+    text-decoration: none;
+    color: lightgrey;
+    font-size: 15px;
+  }
+  
+  @media (max-width: 1000px) {
+    .login-screen-bar {
+      height: auto;
+    }
+  
+  }
+  
+  @media (max-width: 768px) {
+    .login-screen-bar {
+      height: auto;
+    }
+  
+  }
+  
+  @media (max-width: 480px) {
+    .login-screen-bar {
+      height: auto;
+    }
+  }

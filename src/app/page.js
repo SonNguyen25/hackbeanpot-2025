@@ -103,8 +103,11 @@ import { MapPin, Music, Leaf, ChevronRight } from "lucide-react"
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import GoogleMapComponent from "@/app/components/google-maps-api";
+import { useRouter } from "next/navigation";
 
 function Nav() {
+  const router = useRouter();
+  
   return (
     <motion.nav
       initial={{ y: -100 }}
@@ -286,6 +289,7 @@ function Footer() {
 
 
 export default function Home() {
+  
   return (
     <main className="min-h-screen bg-white text-primary">
       <Nav />

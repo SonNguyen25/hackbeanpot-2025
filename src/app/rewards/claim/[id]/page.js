@@ -1,7 +1,5 @@
 "use client"
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react"
 import { useParams, useRouter } from "next/navigation"
 import QRCode from "react-qr-code"
@@ -12,82 +10,99 @@ export default function ClaimRewardPage() {
   const [reward, setReward] = useState(null)
   const [loading, setLoading] = useState(true)
   const [qrValue, setQrValue] = useState(null)
-export default function FriendsPage() {
-  const [friends, setFriends] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
-
-  // For this prototype, we'll use a dummy current user id.
-  // Replace "67a805dbf1f5534fde989cc2" with a valid ObjectId string from your database.
-  const [currentUserId, setCurrentUserId] = useState(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      let storedUserId = localStorage.getItem("currentUserId");
-      if (!storedUserId || storedUserId === "YOUR_TEST_USER_ID") {
-        storedUserId = "67a805dbf1f5534fde989cc2";
-        localStorage.setItem("currentUserId", storedUserId);
-      }
-      setCurrentUserId(storedUserId);
+    if (id) {
+      const storedRewards = localStorage.getItem("rewards")
+      const rewards = storedRewards ? JSON.parse(storedRewards) : []
+      const foundReward = rewards.find((r) => r.id.toString() === id)
+      setReward(foundReward)
+      setLoading(false)
     }
-  }, []);
+  }, [id])
 
-  useEffect(() => {
-    async function fetchFriends() {
-      try {
-        const res = await fetch(`/api/friends?userId=${currentUserId}`);
-        const data = await res.json();
-        setFriends(data.recommendedFriends || []);
-      } catch (err) {
-        console.error("Error fetching friends:", err);
+  const handleClaim = () => {
+    const storedRewards = localStorage.getItem("rewards")
+    let rewards = storedRewards ? JSON.parse(storedRewards) : []
+    const rewardIndex = rewards.findIndex((r) => r.id.toString() === id)
+    if (rewardIndex > -1) {
+      if (rewards[rewardIndex].quantity > 1) {
+        rewards[rewardIndex].quantity -= 1
+      } else {
+        rewards = rewards.filter((r) => r.id.toString() !== id)
       }
-      setLoading(false);
+      localStorage.setItem("rewards", JSON.stringify(rewards))
     }
-    if (currentUserId) {
-      fetchFriends();
-    } else {
-      setLoading(false);
-    }
-  }, [currentUserId]);
+    const randomCode = Math.random().toString(36).substring(2, 10)
+    setQrValue(randomCode)
+  }
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        Loading...
+      <div className="flex h-screen items-center justify-center bg-black">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-green-500 border-t-transparent"></div>
       </div>
-    );
+    )
   }
 
-  if (!currentUserId) {
+  if (!reward) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center">
-        Please log in to view friend recommendations.
+      <div className="flex h-screen items-center justify-center bg-black text-white">
+        Reward not found or fully claimed.
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-black text-white p-6">
-      <h1 className="text-5xl font-bold text-green-500 text-center mb-8">Recommended Friends</h1>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {friends.map((friend) => (
-          <div
-            key={friend._id}
-            onClick={() => router.push(`/friends/${friend._id}`)}
-            className="bg-gray-800 p-6 rounded-lg shadow-md cursor-pointer hover:scale-105 transition-transform"
-          >
-            <h2 className="text-3xl font-bold mb-2">
-              {friend.firstname} {friend.lastname}
-            </h2>
-            <p className="text-xl mb-2">Gender: {friend.gender}</p>
-            <p className="text-xl mb-2">DOB: {friend.dob}</p>
-            <p className="text-xl mb-2">Location: {friend.location}</p>
-            <p className="text-xl">
-              Similarity: {(friend.similarity * 100).toFixed(1)}%
-            </p>
+    <div className="min-h-screen bg-black p-4 text-white">
+      <h1 className="mb-8 text-center text-4xl font-bold text-green-500">Claim Reward</h1>
+      <div className="mx-auto max-w-4xl overflow-hidden rounded-lg bg-green-100 text-black">
+        <div className="p-6">
+          <h2 className="mb-4 text-3xl font-bold">{reward.title}</h2>
+          <div className="flex flex-col md:flex-row">
+            <div className="flex-1 space-y-4">
+              <p className="text-lg">{reward.description}</p>
+              <p className="text-lg">
+                <span className="font-semibold">Owner:</span> {reward.owner}
+              </p>
+              <p className="text-lg font-bold">Quantity Available: {reward.quantity}</p>
+              {qrValue ? (
+                <div className="space-y-4 text-center">
+                  <p className="text-lg font-semibold">Show this QR code at the store:</p>
+                  <div className="mx-auto w-32">
+                    <QRCode value={qrValue} size={128} />
+                  </div>
+                  <p className="text-lg">
+                    Code: <span className="font-mono font-bold">{qrValue}</span>
+                  </p>
+                  <button
+                    onClick={() => router.push("/rewards")}
+                    className="rounded bg-green-500 px-4 py-2 font-bold text-black hover:bg-green-600"
+                  >
+                    Done
+                  </button>
+                </div>
+              ) : (
+                <button
+                  onClick={handleClaim}
+                  className="rounded bg-green-500 px-4 py-2 font-bold text-black hover:bg-green-600"
+                >
+                  Claim Reward
+                </button>
+              )}
+            </div>
+            {reward.image && (
+              <div className="mt-4 flex flex-1 items-center justify-center md:mt-0">
+                <img
+                  src={reward.image || "/placeholder.svg"}
+                  alt={reward.title}
+                  className="max-h-80 w-full rounded-lg object-contain"
+                />
+              </div>
+            )}
           </div>
-        ))}
+        </div>
       </div>
     </div>
-  );
+  )
 }

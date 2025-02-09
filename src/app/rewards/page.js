@@ -89,33 +89,7 @@ export default function RewardsList() {
           <p className="text-xl">No rewards found. Create a new reward to get started!</p>
         </div>
       )}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
-        {rewards.map((reward) => (
-          <div
-            key={reward.id}
-            onClick={() => router.push(`/rewards/claim/${reward.id}`)}
-            className="bg-green-200 text-black rounded-xl border-2 border-green-500 flex flex-row overflow-hidden aspect-square cursor-pointer hover:scale-105 transition-transform"
-          >
-            {/* Left Half: Details */}
-            <div className="w-1/2 p-4 flex flex-col justify-center">
-              <h2 className="text-3xl font-bold mb-2">{reward.title}</h2>
-              <p className="text-xl mb-1">Desc: {reward.description}</p>
-              <p className="text-lg mb-1">Owner: {reward.owner}</p>
-              <p className="text-lg font-bold">Qty: {reward.quantity}</p>
-            </div>
-            {/* Right Half: Image */}
-            <div className="w-1/2 flex items-center justify-center p-2">
-              {reward.image && (
-                <img
-                  src={reward.image}
-                  alt={reward.title}
-                  className="w-full h-full object-contain"
-                />
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
+      {/*  */}
     </div>
   )
 }

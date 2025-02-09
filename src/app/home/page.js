@@ -63,7 +63,7 @@ function FeaturesSection() {
           title="Find Road Trip Buddies" 
           description="Connect with like-minded travelers and plan your next adventure together."
           icon={<Users className="w-10 h-10 text-green-500" />}
-          link="/friendship-making"
+          link="/friends"
         />
         <FeatureCard 
           title="Eco-Map Planner" 

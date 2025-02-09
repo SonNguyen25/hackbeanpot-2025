@@ -22,11 +22,10 @@ export default function Register() {
       <div className="hidden md:flex flex-col justify-center px-12 text-center bg-black w-1/2">
         <h1 className="text-gradient text-[60px] font-bold">EarthBeats</h1>
         <p className="text-gradient text-[25px] mt-4">
-          Your ultimate eco-friendly road trip companion! Plan sustainable
-          journeys, discover green destinations, and track your environmental
-          impact—all while enjoying personalized music recommendations for the
-          road. Stay connected with friends, compete in eco-challenges, and get
-          AI-driven insights to make every trip more sustainable and fun!
+        Plan eco-friendly journeys, explore green destinations, 
+        and track your environmental impact—all with personalized music for the road. 
+        Stay connected, join eco-challenges, and get AI-driven insights
+        to make every trip more sustainable and fun!
         </p>
       </div>
 

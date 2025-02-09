@@ -89,6 +89,7 @@ export default function RewardsList() {
           <p className="text-xl">No rewards found. Create a new reward to get started!</p>
         </div>
       )}
+      {/*  */}
     </div>
   )
 }

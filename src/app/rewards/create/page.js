@@ -1,217 +1,169 @@
-"use client";
+"use client"
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import imageCompression from "browser-image-compression";
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import imageCompression from "browser-image-compression"
+import { PlusCircle, Upload } from "lucide-react"
 
 export default function CreateReward() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [owner, setOwner] = useState("");
-  const [quantity, setQuantity] = useState(1);
-  const [image, setImage] = useState(null);
-  const router = useRouter();
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
+  const [owner, setOwner] = useState("")
+  const [quantity, setQuantity] = useState(1)
+  const [image, setImage] = useState(null)
+  const router = useRouter()
 
-  // Handle image upload and compression
   const handleImageChange = async (e) => {
-    const file = e.target.files[0];
+    const file = e.target.files[0]
     if (file) {
-      // Set options for compression (adjust as needed)
       const options = {
-        maxSizeMB: 0.5,         // Compress to 0.5 MB max
-        maxWidthOrHeight: 800,    // Resize if larger than 800px in either dimension
+        maxSizeMB: 0.5,
+        maxWidthOrHeight: 800,
         useWebWorker: true,
-      };
+      }
 
       try {
-        const compressedFile = await imageCompression(file, options);
-        const reader = new FileReader();
+        const compressedFile = await imageCompression(file, options)
+        const reader = new FileReader()
         reader.onloadend = () => {
-          setImage(reader.result);
-        };
-        reader.readAsDataURL(compressedFile);
+          setImage(reader.result)
+        }
+        reader.readAsDataURL(compressedFile)
       } catch (error) {
-        console.error("Error compressing image:", error);
+        console.error("Error compressing image:", error)
       }
     }
-  };
+  }
 
-  // Handle form submission
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
 
     const newReward = {
-      id: Date.now(), // Unique id based on current timestamp
+      id: Date.now(),
       title,
       description,
       owner,
       quantity: Number(quantity),
-      image, // Base64 image string (if available)
-    };
-
-    // Retrieve existing rewards from localStorage
-    const storedRewards = localStorage.getItem("rewards");
-    const rewards = storedRewards ? JSON.parse(storedRewards) : [];
-    rewards.push(newReward);
-
-    // Try to save the rewards to localStorage
-    try {
-      localStorage.setItem("rewards", JSON.stringify(rewards));
-    } catch (error) {
-      console.error("Error saving reward:", error);
-      alert(
-        "Unable to save reward: Storage quota exceeded. Please try uploading a smaller image or remove some rewards."
-      );
-      return;
+      image,
     }
 
-    // Navigate back to the rewards list page
-    router.push("/rewards");
-  };
+    const storedRewards = localStorage.getItem("rewards")
+    const rewards = storedRewards ? JSON.parse(storedRewards) : []
+    rewards.push(newReward)
+
+    try {
+      localStorage.setItem("rewards", JSON.stringify(rewards))
+      router.push("/rewards")
+    } catch (error) {
+      console.error("Error saving reward:", error)
+      alert(
+        "Unable to save reward: Storage quota exceeded. Please try uploading a smaller image or remove some rewards.",
+      )
+    }
+  }
 
   return (
-    <div style={styles.pageContainer}>
-      <h1 style={styles.heading}>Create Reward</h1>
-      <form onSubmit={handleSubmit} style={styles.form}>
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Title:</label>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            style={styles.input}
-            required
-          />
-        </div>
-
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Description:</label>
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            style={styles.textarea}
-            required
-          />
-        </div>
-
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Owner:</label>
-          <input
-            type="text"
-            value={owner}
-            onChange={(e) => setOwner(e.target.value)}
-            style={styles.input}
-            placeholder="e.g., Coffee House, Gas Station"
-            required
-          />
-        </div>
-
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Quantity:</label>
-          <input
-            type="number"
-            value={quantity}
-            onChange={(e) => setQuantity(e.target.value)}
-            style={styles.input}
-            min="1"
-            required
-          />
-        </div>
-
-        <div style={styles.formGroup}>
-          <label style={styles.label}>Upload Image:</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={styles.inputFile}
-          />
-          {image && (
-            <img
-              src={image}
-              alt="Reward Preview"
-              style={styles.imagePreview}
-            />
-          )}
-        </div>
-
-        <button type="submit" style={styles.submitButton}>
+    <div className="min-h-screen bg-black text-white p-6">
+      <div className="max-w-3xl mx-auto">
+        <h1 className="text-5xl font-bold text-center mb-10 text-transparent bg-clip-text bg-green-500">
           Create Reward
-        </button>
-      </form>
-    </div>
-  );
-}
+        </h1>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label htmlFor="title" className="block text-lg font-medium mb-2">
+              Title
+            </label>
+            <input
+              id="title"
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="w-full p-3 bg-gray-900 border border-gray-700 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              required
+            />
+          </div>
 
-const styles = {
-  pageContainer: {
-    backgroundColor: "#000", // Black background
-    minHeight: "100vh",
-    color: "#fff", // Default text white
-    padding: "20px",
-  },
-  heading: {
-    textAlign: "center",
-    fontSize: "56px",
-    marginBottom: "20px",
-    color: "#1db954", // Green accent for heading
-  },
-  form: {
-    maxWidth: "800px",
-    margin: "0 auto",
-  },
-  formGroup: {
-    marginBottom: "20px",
-  },
-  label: {
-    display: "block",
-    marginBottom: "10px",
-    fontSize: "20px",
-    fontWeight: "bold",
-    color: "#fff",
-  },
-  input: {
-    width: "100%",
-    padding: "15px",
-    borderRadius: "5px",
-    border: "2px solid #1db954", // Green border
-    backgroundColor: "#222",
-    color: "#fff",
-    fontSize: "18px",
-  },
-  inputFile: {
-    fontSize: "18px",
-    color: "#fff",
-  },
-  textarea: {
-    width: "100%",
-    padding: "15px",
-    borderRadius: "5px",
-    border: "2px solid #1db954",
-    backgroundColor: "#222",
-    color: "#fff",
-    fontSize: "18px",
-    minHeight: "120px",
-  },
-  imagePreview: {
-    marginTop: "10px",
-    maxWidth: "200px",
-    maxHeight: "200px",
-    borderRadius: "5px",
-    border: "2px solid #1db954",
-    display: "block",
-  },
-  submitButton: {
-    display: "block",
-    width: "100%",
-    padding: "15px",
-    backgroundColor: "#1db954",
-    color: "#000",
-    border: "none",
-    borderRadius: "5px",
-    fontWeight: "bold",
-    fontSize: "20px",
-    cursor: "pointer",
-  },
-};
+          <div>
+            <label htmlFor="description" className="block text-lg font-medium mb-2">
+              Description
+            </label>
+            <textarea
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full p-3 bg-gray-900 border border-gray-700 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent h-32"
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="owner" className="block text-lg font-medium mb-2">
+              Owner
+            </label>
+            <input
+              id="owner"
+              type="text"
+              value={owner}
+              onChange={(e) => setOwner(e.target.value)}
+              className="w-full p-3 bg-gray-900 border border-gray-700 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              placeholder="e.g., Coffee House, Gas Station"
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="quantity" className="block text-lg font-medium mb-2">
+              Quantity
+            </label>
+            <input
+              id="quantity"
+              type="number"
+              value={quantity}
+              onChange={(e) => setQuantity(e.target.value)}
+              className="w-full p-3 bg-gray-900 border border-gray-700 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              min="1"
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="image" className="block text-lg font-medium mb-2">
+              Upload Image
+            </label>
+            <div className="flex items-center justify-center w-full">
+              <label
+                htmlFor="image"
+                className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-700 border-dashed rounded-lg cursor-pointer bg-gray-900 hover:bg-gray-800 transition-all duration-300"
+              >
+                <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                  <Upload className="w-10 h-10 mb-3 text-gray-400" />
+                  <p className="mb-2 text-sm text-gray-400">
+                    <span className="font-semibold">Click to upload</span> or drag and drop
+                  </p>
+                  <p className="text-xs text-gray-400">PNG, JPG or GIF (MAX. 800x800px)</p>
+                </div>
+                <input id="image" type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+              </label>
+            </div>
+            {image && (
+              <img
+                src={image || "/placeholder.svg"}
+                alt="Reward Preview"
+                className="mt-4 max-w-xs mx-auto rounded-lg border-2 border-green-500"
+              />
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className="w-full py-3 px-6 text-white bg-gradient-to-r from-green-400 to-blue-500 rounded-full font-bold text-lg hover:opacity-90 transition-opacity flex items-center justify-center"
+          >
+            <PlusCircle className="mr-2" />
+            Create Reward
+          </button>
+        </form>
+      </div>
+    </div>
+  )
+}
 

@@ -1,89 +1,91 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-// import * as client from "@/app/profile/client"; // Update this path as needed
 
 export default function LoginSidebar() {
   const router = useRouter();
   const [credentials, setCredentials] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const signin = async (e) => {
     e.preventDefault();
     try {
-        const res = await fetch("/api/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(credentials),
-        });
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+      });
 
-        const responseText = await res.text();
+      const responseText = await res.text();
 
-        try {
-            const data = JSON.parse(responseText);
+      try {
+        const data = JSON.parse(responseText);
 
-            if (!res.ok) {
-                throw new Error(data.error || "Login failed");
-            }
-
-            // Store user data in localStorage
-            localStorage.setItem("user", JSON.stringify(data.user));
-
-            router.push("/profile");
-
-        } catch (parseError) {
-            throw new Error("Invalid server response");
+        if (!res.ok) {
+          throw new Error(data.error || "Login failed");
         }
 
-    } catch (error) {
-        alert(error.message || "Login failed. Try again.");
-    }
-};
+        // Store user data in localStorage
+        localStorage.setItem("user", JSON.stringify(data.user));
 
+        router.push("/profile");
+      } catch (parseError) {
+        throw new Error("Invalid server response");
+      }
+    } catch (error) {
+      alert(error.message || "Login failed. Try again.");
+    }
+  };
 
   return (
-    <div className="flex flex-col items-center bg-gray p-6 rounded-lg shadow-lg w-full max-w-sm">
-      <h1 className="text-3xl font-bold text-gradient mb-4">Welcome Back!</h1>
+    <div className="w-full max-w-md mx-auto bg-gray-900 p-8 rounded-lg shadow-lg">
+      <h2 className="text-3xl font-bold mb-6 text-center text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">
+        Welcome Back
+      </h2>
 
-      <form className="w-full" onSubmit={signin}>
-        <div className="mb-4">
-          <label className="block font-semibold text-white">Username</label>
+      <form onSubmit={signin} className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-300">Email</label>
           <input
             type="email"
-            className="w-full p-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             value={credentials.email}
             onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}
+            className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            required
           />
         </div>
 
-        <div className="mb-4">
-          <label className="block font-semibold text-white">Password</label>
+        <div>
+          <label className="block text-sm font-medium text-gray-300">Password</label>
           <input
             type="password"
-            className="w-full p-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             value={credentials.password}
             onChange={(e) => setCredentials({ ...credentials, password: e.target.value })}
+            className="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-700 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            required
           />
         </div>
 
-        <button
-          type="submit"
-          className="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded-md transition"
-        >
-          Sign In
-        </button>
+        <div>
+          <button
+            type="submit"
+            className="w-full py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500"
+          >
+            Sign In
+          </button>
+        </div>
       </form>
 
-      <div className="mt-4 text-sm text-gray-400">
-        <Link href="/register" className="hover:underline text-purple-400">
-          Register
+      <p className="mt-4 text-center text-sm text-gray-400">
+        Don&apos;t have an account?{" "}
+        <Link href="/register" className="font-medium text-green-400 hover:text-green-300">
+          Create one
         </Link>
-        <br />
-      </div>
+      </p>
     </div>
   );
 }

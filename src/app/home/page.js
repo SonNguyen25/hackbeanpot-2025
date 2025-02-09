@@ -78,10 +78,10 @@ function FeaturesSection() {
           link="/voices"
         />
         <FeatureCard 
-          title="Green Accommodations" 
-          description="Find and book sustainable hotels and lodgings along your route."
+          title="Gain Rewards" 
+          description="Get coins based on how much carbon footprint emmission you saved."
           icon={<MapPin className="w-10 h-10 text-green-500" />}
-          link="/map"
+          link="/rewards"
         />
       </div>
     </motion.section>

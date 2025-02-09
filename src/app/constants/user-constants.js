@@ -1,3 +1,5 @@
+const usersGenders = ["Female", "Male"];
+
 const usersLocations = [
     "Alabama", "Alaska", "Arizona", "Arkansas", "California", "Colorado", 
     "Connecticut", "Delaware", "Florida", "Georgia", "Hawaii", "Idaho", 
@@ -156,4 +158,4 @@ const usersInterests = [
     "Gardening",
 ];
 
-module.exports = { usersLocations, usersInterests }
+module.exports = { usersLocations, usersInterests, usersGenders }

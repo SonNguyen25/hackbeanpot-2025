@@ -33,7 +33,7 @@ export default function RewardsList() {
           <h1 className="text-5xl font-bold text-green-500 mb-4 md:mb-0">
             Rewards
           </h1>
-          {user.firstname.includes("Jonathan") && (
+          {user?.firstname?.includes("Jonathan") && (
             <Link
               href="/rewards/create"
               className="bg-gradient-to-r from-green-400 to-blue-500 font-bold text-white px-6 py-3 rounded-full flex items-center hover:opacity-90 transition-opacity"
@@ -88,6 +88,7 @@ export default function RewardsList() {
                 </p>
                 <p className="text-sm mb-1">Owner: {reward.owner}</p>
                 <p className="text-sm font-bold">Quantity: {reward.quantity}</p>
+                <p className="text-sm font-bold">Coins Required: {reward.coins}</p>
               </div>
               <div className="p-4 bg-green-300 text-center">
                 <span className="font-bold">Claim Reward</span>

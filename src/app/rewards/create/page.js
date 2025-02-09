@@ -10,6 +10,7 @@ export default function CreateReward() {
   const [description, setDescription] = useState("")
   const [owner, setOwner] = useState("")
   const [quantity, setQuantity] = useState(1)
+  const [coins, setCoins] = useState(0)
   const [image, setImage] = useState(null)
   const router = useRouter()
 
@@ -44,6 +45,7 @@ export default function CreateReward() {
       description,
       owner,
       quantity: Number(quantity),
+      coins: Number(coins),
       image,
     }
 
@@ -120,6 +122,21 @@ export default function CreateReward() {
               type="number"
               value={quantity}
               onChange={(e) => setQuantity(e.target.value)}
+              className="w-full p-3 bg-gray-900 border border-gray-700 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
+              min="1"
+              required
+            />
+          </div>
+
+          <div>
+            <label htmlFor="quantity" className="block text-lg font-medium mb-2">
+              Coins Required
+            </label>
+            <input
+              id="coins"
+              type="number"
+              value={coins}
+              onChange={(e) => setCoins(e.target.value)}
               className="w-full p-3 bg-gray-900 border border-gray-700 rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent"
               min="1"
               required

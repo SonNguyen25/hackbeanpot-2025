@@ -140,20 +140,19 @@ export default function GoogleMapComponent() {
   const [stops, setStops] = useState([]);
   const [stopInputRef, setStopInputRef] = useState(null);
   const [earnedCoins, setEarnedCoins] = useState({});
-
-  
+  const [carbonFootprint, setCarbonFootprint] = useState(null);
 
   useEffect(() => {
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = controlStyles;
     document.head.appendChild(style);
 
     return () => {
-        if (style.parentNode) { 
-            style.parentNode.removeChild(style);
-        }
+      if (style.parentNode) {
+        style.parentNode.removeChild(style);
+      }
     };
-}, []);
+  }, []);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -170,7 +169,7 @@ export default function GoogleMapComponent() {
   }, []);
 
   const fetchEcoFriendlyPlaces = useCallback(async () => {
-    if (!userLocation || !destination || !directions) return; 
+    if (!userLocation || !destination || !directions) return;
 
     if (typeof window !== "undefined" && window.google?.maps) {
       const map = new window.google.maps.Map(document.createElement("div"));
@@ -357,6 +356,18 @@ export default function GoogleMapComponent() {
         if (status === window.google.maps.DirectionsStatus.OK) {
           setDirections(result);
           setError("");
+          // Calculate total distance
+          let totalDistance = 0; // in meters
+          result.routes[0].legs.forEach((leg) => {
+            totalDistance += leg.distance.value; // sum all distances
+          });
+
+          // Convert meters to km
+          const totalDistanceKm = totalDistance / 1000;
+
+          // Carbon footprint calculation (0.24 kg CO₂ per km)
+          const footprint = totalDistanceKm * 0.24;
+          setCarbonFootprint(footprint.toFixed(2));
         } else {
           console.error("Error fetching directions:", status);
           setError("No route found. Please enter a valid address.");
@@ -438,10 +449,9 @@ export default function GoogleMapComponent() {
     if (minDistance < 3) return 3;
     return 1;
   };
-  
-  
+
   return (
-    <LoadScriptNext 
+    <LoadScriptNext
       googleMapsApiKey={googleMapsApiKey}
       libraries={["places"]}
       onLoad={() => setMapLoaded(true)}
@@ -529,6 +539,17 @@ export default function GoogleMapComponent() {
                   ))
                 )}
               </div>
+              {carbonFootprint && (
+                <div className="mt-4 p-4 bg-gray-900 text-green-400 rounded">
+                  <h4 className="text-lg font-semibold">
+                    Estimated Total Carbon Footprint
+                  </h4>
+                  <p className="text-xl">🌍 {carbonFootprint} kg CO₂</p>
+                  <p className="text-sm text-gray-400">
+                    Based on a standard vehicle emission of 0.24 kg CO₂/km.
+                  </p>
+                </div>
+              )}
               {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
             </div>
             {/* Map Section */}
@@ -573,11 +594,11 @@ export default function GoogleMapComponent() {
                   />
                 ))}
                 {/* Popup (InfoWindow) */}
-                  {selectedLocation && (
-                    <InfoWindow
-                      position={selectedLocation.geometry.location}
-                      onCloseClick={() => setSelectedLocation(null)}
-                    >
+                {selectedLocation && (
+                  <InfoWindow
+                    position={selectedLocation.geometry.location}
+                    onCloseClick={() => setSelectedLocation(null)}
+                  >
                     <div className="p-4 bg-black text-white rounded-lg shadow-lg max-w-xs">
                       {/* Display Image if Available */}
                       {selectedLocation.photos &&
@@ -661,6 +682,6 @@ export default function GoogleMapComponent() {
           </div>
         </div>
       </div>
-    </LoadScriptNext >
+    </LoadScriptNext>
   );
 }

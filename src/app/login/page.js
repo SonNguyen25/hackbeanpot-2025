@@ -19,7 +19,7 @@ export default function Login() {
   return (
     <div className="flex h-screen w-full bg-[#0b0b0e]">
       {/* Main Content */}
-      <div className="hidden md:flex flex-col justify-center px-12 text-center w-1/2">
+      <div className="hidden md:flex flex-col justify-center px-12 text-center bg-black w-1/2">
         <h1 className="text-gradient text-[60px] font-bold">EarthBeats</h1>
         <p className="text-gradient text-[25px] mt-4">
           Your ultimate eco-friendly road trip companion! Plan sustainable
@@ -31,7 +31,7 @@ export default function Login() {
       </div>
 
       {/* Sidebar */}
-      <div className="flex items-center justify-center w-full md:w-1/2 bg-black p-6">
+      <div className="flex items-center justify-center w-full md:w-1/2 p-6">
         {page === "CreateAccount" ? <CreateAccount /> : <LoginSidebar />}
       </div>
     </div>

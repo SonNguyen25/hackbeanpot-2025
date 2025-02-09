@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 // import * as client from "@/app/profile/client"; // Update this path as needed
@@ -22,6 +22,18 @@ export default function LoginSidebar() {
     // yearOfExperience: 0,
     // sex: "",
   });
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  
+    // Handle mouse movement, changing color on the screen
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+  
+    useEffect(() => {
+      window.addEventListener("mousemove", handleMouseMove);
+      return () => window.removeEventListener("mousemove", handleMouseMove);
+    }, []);
+  
 
   const signin = async (e) => {
     e.preventDefault(); // Prevents page refresh
@@ -48,7 +60,7 @@ export default function LoginSidebar() {
   };
 
   return (
-    <div className="flex flex-col items-center bg-black p-6 rounded-lg shadow-lg w-full max-w-sm">
+    <div className="flex flex-col items-center p-6 rounded-lg shadow-lg w-full max-w-sm">
       <h1 className="text-3xl font-bold text-gradient mb-4">Welcome Back! 🦁</h1>
 
       <form className="w-full" onSubmit={signin}>

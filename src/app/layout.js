@@ -27,22 +27,31 @@
 //     </html>
 //   );
 // }
-import "./globals.css"
-import { Inter } from "next/font/google"
-import React from "react" 
+"use client";
 
-const inter = Inter({ subsets: ["latin"] })
+import "./globals.css";
+import { Inter } from "next/font/google";
+import React from "react";
+import Sidebar from "@/app/components/Navbar";
+import { usePathname } from "next/navigation";
 
-export const metadata = {
-  title: "RoadTrip Companion & EarthBeats",
-  description: "Your eco-friendly road trip planner with music integration",
-};
+// const inter = Inter({ subsets: ["latin"] });
+
+// export const metadata = {
+//   title: "EarthBeats",
+//   description: "Your eco-friendly road trip planner with music integration",
+// };
 
 export default function RootLayout({ children }) {
+  const pathname = usePathname();
+  const hideSidebar = pathname === "/login" || pathname === "/register";
+
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="flex bg-black text-primary">
+        {!hideSidebar && <Sidebar />}
+        <main className="flex-grow p-6">{children}</main>
+      </body>
     </html>
   );
 }
-

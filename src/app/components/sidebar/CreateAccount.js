@@ -36,7 +36,6 @@ export default function CreateAccount() {
     const register = async (e) => {
         e.preventDefault();
         try {
-            console.log("This payload is not getting in")
             const res = await fetch("/api/auth/signup", {
                 method: "POST",
                 headers: {
@@ -44,15 +43,14 @@ export default function CreateAccount() {
                 },
                 body: JSON.stringify(credentials),
             });
-            console.log("This payload got something in")
 
             const data = await res.json();
 
             if (!res.ok) {
-                console.log("This payload failed")
                 throw new Error(data.error || "Register failed");
             }
 
+            router.push("/home");
         } catch (error) {
             console.log("This payload failed even more")
             alert(error.message || "Login failed. Try again.");

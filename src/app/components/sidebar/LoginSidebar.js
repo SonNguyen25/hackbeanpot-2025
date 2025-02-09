@@ -28,7 +28,7 @@ export default function LoginSidebar() {
           throw new Error(data.error || "Login failed");
         }
 
-        router.push("/");
+        router.push("/home");
 
       } catch (parseError) {
         throw new Error("Invalid server response");

@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 const {
   usersInterests,
   usersLocations,
+  usersGenders
 } = require("@/app/constants/user-constants");
 
 const UserSchema = new mongoose.Schema({

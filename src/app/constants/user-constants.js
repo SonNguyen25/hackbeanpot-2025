@@ -158,4 +158,4 @@ const usersInterests = [
     "Gardening",
 ];
 
-module.exports = { usersLocations, usersInterests }
+module.exports = { usersLocations, usersInterests, usersGenders }

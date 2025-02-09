@@ -147,13 +147,14 @@ const styles = {
   pageContainer: {
     backgroundColor: "#000", // Black background
     minHeight: "100vh",
-    color: "#0f0", // Green text
+    color: "#fff", // Default text white
     padding: "20px",
   },
   heading: {
     textAlign: "center",
-    fontSize: "48px",
+    fontSize: "56px",
     marginBottom: "20px",
+    color: "#1db954", // Green accent for heading
   },
   form: {
     maxWidth: "800px",
@@ -167,27 +168,28 @@ const styles = {
     marginBottom: "10px",
     fontSize: "20px",
     fontWeight: "bold",
+    color: "#fff",
   },
   input: {
     width: "100%",
     padding: "15px",
     borderRadius: "5px",
-    border: "2px solid #0f0",
+    border: "2px solid #1db954", // Green border
     backgroundColor: "#222",
-    color: "#0f0",
+    color: "#fff",
     fontSize: "18px",
   },
   inputFile: {
     fontSize: "18px",
-    color: "#0f0",
+    color: "#fff",
   },
   textarea: {
     width: "100%",
     padding: "15px",
     borderRadius: "5px",
-    border: "2px solid #0f0",
+    border: "2px solid #1db954",
     backgroundColor: "#222",
-    color: "#0f0",
+    color: "#fff",
     fontSize: "18px",
     minHeight: "120px",
   },
@@ -196,13 +198,14 @@ const styles = {
     maxWidth: "200px",
     maxHeight: "200px",
     borderRadius: "5px",
-    border: "2px solid #0f0",
+    border: "2px solid #1db954",
+    display: "block",
   },
   submitButton: {
     display: "block",
     width: "100%",
     padding: "15px",
-    backgroundColor: "#0f0",
+    backgroundColor: "#1db954",
     color: "#000",
     border: "none",
     borderRadius: "5px",
@@ -211,3 +214,4 @@ const styles = {
     cursor: "pointer",
   },
 };
+

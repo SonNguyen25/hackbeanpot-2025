@@ -10,19 +10,20 @@ export default function VoiceEmotionPage() {
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
 
-  // On mount, check for an access token in the URL or localStorage.
+  // On mount, check for an access token in the URL or in localStorage.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const tokenFromUrl = params.get("accessToken");
     if (tokenFromUrl) {
       localStorage.setItem("spotifyAccessToken", tokenFromUrl);
       setAccessToken(tokenFromUrl);
+      // Clean the URL so the token is removed from the visible URL.
       window.history.replaceState(null, "", window.location.pathname);
     } else {
       const storedToken = localStorage.getItem("spotifyAccessToken");
       if (storedToken) setAccessToken(storedToken);
     }
-    // Set an initial status if token is present.
+    // If a token is already available, set an initial status.
     if (accessToken) {
       setStatusText("Ready to record your voice!");
     }
@@ -43,9 +44,10 @@ export default function VoiceEmotionPage() {
     window.location.reload();
   };
 
-  // Start recording: clear previous result, request microphone access.
+  // Start recording using the MediaRecorder API.
   const startRecording = async () => {
-    setResult(null); // Clear previous result.
+    // Clear any previous result.
+    setResult(null);
     setStatusText("Requesting microphone access...");
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -75,16 +77,16 @@ export default function VoiceEmotionPage() {
           });
           const data = await response.json();
           if (data.error) {
-            setResult(<p style={{ color: "red" }}>⚠️ {data.error}</p>);
+            setResult(<p className="text-red-500">⚠️ {data.error}</p>);
           } else {
             setResult(
-              <div>
-                <h3>🎭 Detected Emotion: {data.emotion}</h3>
-                <h4>🎵 Song Recommendation:</h4>
-                <p>
-                  <strong>{data.matched_song.track_name}</strong> by {data.matched_song.artist}
+              <div className="mt-6 text-xl">
+                <h3 className="font-bold text-green-500">🎭 Detected Emotion: {data.emotion}</h3>
+                <h4 className="mt-4">🎵 Song Recommendation:</h4>
+                <p className="mt-2">
+                  <span className="font-bold">{data.matched_song.track_name}</span> by {data.matched_song.artist}
                 </p>
-                <p>The recommended song has been added to your Spotify queue.</p>
+                <p className="mt-2">The recommended song has been added to your Spotify queue.</p>
               </div>
             );
           }
@@ -113,7 +115,7 @@ export default function VoiceEmotionPage() {
     }
   };
 
-  // Toggle recording button.
+  // Toggle button: if recording, stop; if not, start.
   const toggleRecording = () => {
     if (recording) {
       stopRecording();
@@ -123,113 +125,36 @@ export default function VoiceEmotionPage() {
   };
 
   return (
-    <div className="page-wrapper">
-      {/* Navigation Bar */}
-      <nav className="navbar">
-        <div className="nav-left">
-          <a href="/">Home</a>
-        </div>
-        <div className="nav-right">
-          {accessToken && (
-            <button onClick={handleLogout} className="logout-button">
-              Logout
-            </button>
-          )}
-        </div>
-      </nav>
+    <div className="min-h-screen bg-black text-white flex flex-col items-center py-10">
+      {/* Header (not fixed, just a top section) */}
+      <header className="w-full max-w-6xl flex justify-between items-center mb-8 px-4">
+        <h1 className="text-5xl font-bold text-green-500">Voice Emotion to Spotify</h1>
+        {accessToken && (
+          <button onClick={handleLogout} className="bg-red-500 text-white px-6 py-2 rounded-md text-xl font-semibold">
+            Logout
+          </button>
+        )}
+      </header>
+
       {/* Main Content */}
-      <div className="container">
-        <h1>Voice Emotion to Spotify</h1>
+      <div className="w-full max-w-4xl flex flex-col items-center px-4">
         {!accessToken ? (
-          <div>
-            <button onClick={handleLogin} className="login-button">
+          <div className="mb-8">
+            <button onClick={handleLogin} className="bg-green-500 text-black px-8 py-4 rounded-md text-2xl font-semibold">
               Login with Spotify
             </button>
           </div>
         ) : (
-          <div>
-            <p className="info-text">Logged in with Spotify.</p>
-            <button onClick={toggleRecording} className="record-button">
+          <div className="mb-8">
+            <p className="text-2xl mb-4">Logged in with Spotify.</p>
+            <button onClick={toggleRecording} className="bg-green-500 text-black px-8 py-4 rounded-md text-2xl font-semibold">
               {recording ? "Stop Recording" : "Start Recording"}
             </button>
           </div>
         )}
-        <p className="status">{statusText}</p>
-        <div className="result">{result}</div>
+        <p className="mt-6 font-bold text-2xl">{statusText}</p>
+        <div className="mt-8 text-center">{result}</div>
       </div>
-
-      <style jsx>{`
-        .page-wrapper {
-          min-height: 100vh;
-          background-color: #000;
-          color: #fff;
-          display: flex;
-          flex-direction: column;
-        }
-        .navbar {
-          width: 100%;
-          padding: 20px 40px;
-          background-color: #111;
-          border-bottom: 2px solid #1db954;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        }
-        .navbar a {
-          color: #1db954;
-          text-decoration: none;
-          font-size: 26px;
-        }
-        .logout-button {
-          background-color: #ff4c4c;
-          color: #fff;
-          border: none;
-          padding: 12px 24px;
-          border-radius: 5px;
-          font-size: 20px;
-          cursor: pointer;
-        }
-        .container {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          padding: 40px;
-        }
-        h1 {
-          margin-bottom: 30px;
-          font-size: 56px;
-        }
-        .info-text {
-          font-size: 28px;
-          margin: 15px 0;
-        }
-        button {
-          font-size: 24px;
-          padding: 15px 30px;
-          margin: 15px;
-          cursor: pointer;
-          border: none;
-          border-radius: 5px;
-        }
-        .login-button,
-        .record-button {
-          background-color: #1db954;
-          color: #000;
-        }
-        .status {
-          font-weight: bold;
-          margin-top: 30px;
-          font-size: 32px;
-        }
-        .result {
-          margin-top: 30px;
-          text-align: center;
-          font-size: 28px;
-        }
-      `}</style>
     </div>
   );
 }

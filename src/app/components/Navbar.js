@@ -42,7 +42,7 @@ export default function Sidebar() {
                 text="Find Friends"
               />
               <SidebarLink href="/map" icon={<Compass />} text="Map" />
-              <SidebarLink href="/music" icon={<Music />} text="Music" />
+              <SidebarLink href="/voices" icon={<Music />} text="Music" />
               <SidebarLink href="/rewards" icon={<Gift />} text="Rewards" />
             </>
           )}

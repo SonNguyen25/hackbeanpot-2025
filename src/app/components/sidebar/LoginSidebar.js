@@ -32,7 +32,7 @@ export default function LoginSidebar() {
         // Store user data in localStorage
         localStorage.setItem("user", JSON.stringify(data.user));
 
-        router.push("/profile");
+        router.push("/home");
       } catch (parseError) {
         throw new Error("Invalid server response");
       }

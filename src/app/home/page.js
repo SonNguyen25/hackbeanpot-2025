@@ -34,7 +34,7 @@ function WelcomeSection() {
       transition={{ duration: 0.5 }}
       className="text-center"
     >
-      <h1 className="text-6xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-blue-400 to-purple-400">
+      <h1 className="text-6xl font-bold text-transparent bg-clip-text bg-green-500">
         Welcome to EarthBeats
       </h1>
       <p className="text-lg text-gray-300 mt-4 max-w-2xl mx-auto">

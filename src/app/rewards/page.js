@@ -1,39 +1,47 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { PlusCircle, Gift, Search } from "lucide-react"
+import { useState, useEffect } from "react";
+import { useAuth } from "@/app/context/AuthContext";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { PlusCircle, Gift, Search } from "lucide-react";
 
 export default function RewardsList() {
-  const [rewards, setRewards] = useState([])
-  const [searchTerm, setSearchTerm] = useState("")
-  const router = useRouter()
+  const { user, logout } = useAuth();
+  const [rewards, setRewards] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
-    const storedRewards = localStorage.getItem("rewards")
+    const storedRewards = localStorage.getItem("rewards");
     if (storedRewards) {
-      setRewards(JSON.parse(storedRewards))
+      setRewards(JSON.parse(storedRewards));
     } else {
-      setRewards([])
+      setRewards([]);
     }
-  }, [])
+  }, []);
 
-  const filteredRewards = rewards.filter((reward) => reward.title.toLowerCase().includes(searchTerm.toLowerCase()))
+  const filteredRewards = rewards.filter((reward) =>
+    reward.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   return (
     <div className="min-h-screen bg-black text-white p-6">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
         <div className="flex flex-col md:flex-row justify-between items-center mb-6">
-          <h1 className="text-5xl font-bold text-green-500 mb-4 md:mb-0">Rewards</h1>
-          <Link
-            href="/rewards/create"
-            className="bg-gradient-to-r from-green-400 to-blue-500 font-bold text-white px-6 py-3 rounded-full flex items-center hover:opacity-90 transition-opacity"
-          >
-            <PlusCircle className="mr-2" />
-            Create Reward
-          </Link>
+          <h1 className="text-5xl font-bold text-green-500 mb-4 md:mb-0">
+            Rewards
+          </h1>
+          {!user.firstname.includes("Jonathan") && (
+            <Link
+              href="/rewards/create"
+              className="bg-gradient-to-r from-green-400 to-blue-500 font-bold text-white px-6 py-3 rounded-full flex items-center hover:opacity-90 transition-opacity"
+            >
+              <PlusCircle className="mr-2" />
+              Create Reward
+            </Link>
+          )}
         </div>
         <div className="relative">
           <input
@@ -72,8 +80,12 @@ export default function RewardsList() {
               </div>
               {/* Details */}
               <div className="p-4 flex-grow">
-                <h2 className="text-2xl font-bold mb-2 line-clamp-1">{reward.title}</h2>
-                <p className="text-sm mb-2 line-clamp-2">{reward.description}</p>
+                <h2 className="text-2xl font-bold mb-2 line-clamp-1">
+                  {reward.title}
+                </h2>
+                <p className="text-sm mb-2 line-clamp-2">
+                  {reward.description}
+                </p>
                 <p className="text-sm mb-1">Owner: {reward.owner}</p>
                 <p className="text-sm font-bold">Quantity: {reward.quantity}</p>
               </div>
@@ -86,11 +98,12 @@ export default function RewardsList() {
       ) : (
         <div className="text-center text-gray-400 mt-12">
           <Gift size={64} className="mx-auto mb-4" />
-          <p className="text-xl">No rewards found. Create a new reward to get started!</p>
+          <p className="text-xl">
+            No rewards found. Create a new reward to get started!
+          </p>
         </div>
       )}
       {/*  */}
     </div>
-  )
+  );
 }
-

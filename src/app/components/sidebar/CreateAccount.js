@@ -35,8 +35,8 @@ export default function CreateAccount() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Register failed");
 
-            login(data.user); // ✅ Store user in AuthContext
-            router.push("/profile");
+            login(data.user); 
+            router.push("/home");
         } catch (error) {
             alert(error.message || "Registration failed. Try again.");
         }

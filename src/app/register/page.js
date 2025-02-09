@@ -7,12 +7,12 @@ import CreateAccount from "@/app/components/sidebar/CreateAccount";
 
 export default function Register() {
   const searchParams = useSearchParams();
-  const [page, setPage] = useState("Register");
+  const [page, setPage] = useState("CreateAccount");
 
   useEffect(() => {
     if (searchParams) {
       const param = searchParams.get("page");
-      setPage(param === "CreateAccount" ? "CreateAccount" : "Register");
+      setPage(param === "Login" ? "Login" : "CreateAccount");
     }
   }, [searchParams]); // Depend on searchParams
 
@@ -32,7 +32,7 @@ export default function Register() {
 
       {/* Sidebar */}
       <div className="flex items-center justify-center w-full md:w-1/2 p-6">
-        {page === "CreateAccount" ? <CreateAccount /> : <LoginSidebar />}
+        {page === "Login" ? <LoginSidebar /> : <CreateAccount />}
       </div>
     </div>
   );

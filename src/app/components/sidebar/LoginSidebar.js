@@ -25,7 +25,7 @@ export default function LoginSidebar() {
 
   return (
     <div className="flex flex-col items-center bg-black p-6 rounded-lg shadow-lg w-full max-w-sm">
-      <h1 className="text-3xl font-bold text-gradient mb-4">Welcome Back! 🦁</h1>
+      <h1 className="text-3xl font-bold text-gradient mb-4">Welcome Back!</h1>
 
       <form className="w-full" onSubmit={signin}>
         <div className="mb-4">
@@ -57,8 +57,8 @@ export default function LoginSidebar() {
       </form>
 
       <div className="mt-4 text-sm text-gray-400">
-        <Link href="/Main/CreateAccount" className="hover:underline text-purple-400">
-          Register an account
+        <Link href="/register" className="hover:underline text-purple-400">
+          Register
         </Link>
         <br />
       </div>

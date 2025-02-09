@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const MONGODB_URI = "mongodb+srv://dolientrang03:<db_password>@hackbeanpot.aemmt.mongodb.net/?retryWrites=true&w=majority&appName=Hackbeanpot"
-// process.env.MONGODB_URI;
+
 
 if (!MONGODB_URI) {
   throw new Error("Please define the MONGODB_URI environment variable in .env.local");

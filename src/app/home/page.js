@@ -42,7 +42,7 @@ function WelcomeSection() {
     >
       <h1 className="text-5xl font-bold text-green-400">Welcome to EarthBeats!</h1>
       <p className="text-lg text-gray-300 mt-4">Plan your journey, discover green destinations, and groove to your favorite tunes.</p>
-      <Link href="/plan-trip" className="mt-6 inline-block bg-gradient-to-r from-green-400 to-blue-500 text-white px-6 py-3 rounded-lg text-lg font-bold shadow-lg hover:opacity-80 transition-all">
+      <Link href="/map" className="mt-6 inline-block bg-gradient-to-r from-green-400 to-blue-500 text-white px-6 py-3 rounded-lg text-lg font-bold shadow-lg hover:opacity-80 transition-all">
         Start Planning Your Trip
       </Link>
     </motion.section>

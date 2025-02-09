@@ -155,20 +155,20 @@ export default function CreateAccount() {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block font-semibold text-white">Interests</label>
-                    <select
-                        className="w-full p-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        value={credentials.interests}
-                        onChange={(e) => setCredentials({ ...credentials, interests: e.target.value })}
-                    >
-                        <option value="" disabled>Interests</option>
-                        {usersInterests.map((interests) => (
-                            <option key={interests} value={interests}>
-                                {interests}
-                            </option>
-                        ))}
-                    </select>
-                </div>
+    <label className="block font-semibold text-white">Interests</label>
+    <select
+        className="w-full p-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+        value={credentials.interests}
+        onChange={(e) => setCredentials({ ...credentials, interests: e.target.value })}
+    >
+        <option value="" disabled>Interests</option>
+        {[...new Set(usersInterests)].map((interest, index) => (
+            <option key={`${interest}-${index}`} value={interest}>
+                {interest}
+            </option>
+        ))}
+    </select>
+</div>
 
                 <button
                     type="submit"

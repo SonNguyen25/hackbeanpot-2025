@@ -1,5 +1,6 @@
 "use client";
 
+import { LogOut, Mic, MicOff } from "lucide-react"
 import { useState, useEffect, useRef } from "react";
 
 export default function VoiceEmotionPage() {
@@ -124,14 +125,7 @@ export default function VoiceEmotionPage() {
 
 <br/><br/>
         <h1 className="text-5xl font-bold text-green-500">Voice Emotion to Spotify</h1>
-        {accessToken && (
-          <button
-            onClick={handleLogout}
-            className="mt-4 bg-red-500 text-white px-6 py-2 rounded-md text-xl font-semibold"
-          >
-            Logout
-          </button>
-        )}
+        
 
 <br/>
         {!accessToken ? (
@@ -148,15 +142,37 @@ export default function VoiceEmotionPage() {
             <p className="text-2xl mb-4">Logged in with Spotify.</p>
             <button
               onClick={toggleRecording}
-              className="bg-gradient-to-r from-green-400 to-blue-500 font-bold px-8 py-4 rounded-md"
+              className={`${
+                recording ? "bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600" : "bg-gradient-to-r from-green-400 to-blue-500 hover:from-green-500 hover:to-blue-600"
+              } text-white font-bold px-8 py-4 rounded-md flex items-center justify-center mx-auto transition-colors duration-300`}
             >
-              {recording ? "Stop Recording" : "Start Recording"}
+             {recording ? (
+                  <>
+                    <MicOff className="mr-2" size={24} />
+                    Stop Recording
+                  </>
+                ) : (
+                  <>
+                    <Mic className="mr-2" size={24} />
+                    Start Recording
+                  </>
+                )}
             </button>
           </div>
         )}
 
         <p className="mt-6 font-bold text-2xl">{statusText}</p>
         <div className="mt-8">{result}</div>
+
+        {accessToken && (
+          <button
+          onClick={handleLogout}
+          className="mt-8 bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-bold px-8 py-4 rounded-md flex items-center justify-center mx-auto transition-colors duration-300"
+        >
+          <LogOut className="mr-2" size={18} />
+          Logout
+        </button>
+        )}
       </div>
     </div>
   );

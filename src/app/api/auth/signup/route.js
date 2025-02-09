@@ -9,7 +9,6 @@ export async function POST(req) {
 
         const { firstname, lastname, email, dob, phone, password, gender, location, interests } = body;
 
-        // Convert dob to a Date object
         const dobDate = new Date(dob);
         if (isNaN(dobDate)) {
             return new Response(JSON.stringify({ error: "Invalid date format" }), { status: 400 });
@@ -34,14 +33,26 @@ export async function POST(req) {
             password: hashedPassword,
             gender,
             location,
-            dob: dobDate, 
+            dob: dobDate,
             interests,
             reward: 0,
         });
 
         console.log("✅ USER CREATED SUCCESSFULLY:", newUser);
 
-        return new Response(JSON.stringify({ user: newUser }), { status: 201 });
+        return new Response(JSON.stringify({ 
+            user: {
+                firstname: newUser.firstname,
+                lastname: newUser.lastname,
+                email: newUser.email,
+                phone: newUser.phone,
+                gender: newUser.gender,
+                location: newUser.location,
+                dob: newUser.dob,
+                interests: newUser.interests,
+                reward: newUser.reward
+            }
+        }), { status: 201 });
 
     } catch (error) {
         return new Response(JSON.stringify({ error: "Internal server error", details: error.message }), { status: 500 });

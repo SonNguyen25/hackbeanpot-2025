@@ -4,8 +4,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { usersGenders, usersInterests, usersLocations } from "@/app/constants/user-constants";
+import { useAuth } from "@/app/context/AuthContext";
 
 export default function CreateAccount() {
+    const { login } = useAuth(); // ✅ Use AuthContext to store user
     const router = useRouter();
     const [step, setStep] = useState(1);
 
@@ -45,7 +47,8 @@ export default function CreateAccount() {
             const data = await res.json();
             if (!res.ok) throw new Error(data.error || "Register failed");
 
-            router.push("/home");
+            login(data.user); // ✅ Store user in AuthContext
+            router.push("/profile");
         } catch (error) {
             alert(error.message || "Registration failed. Try again.");
         }

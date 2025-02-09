@@ -77,7 +77,7 @@ export default function FriendsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white p-6 flex justify-start ml-60">
+    <div className="min-h-screen bg-black text-white p-6">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-8">
         <div className="flex flex-col md:flex-row justify-between items-center mb-6">
@@ -143,7 +143,7 @@ export default function FriendsPage() {
           ))}
         </div>
       ) : (
-        <div className="text-center text-gray-400 mt-60 mr-40">
+        <div className="text-center text-gray-400 mt-12">
           <Users size={64} className="mx-auto mb-4" />
           <p className="text-xl">No recommended friends found.</p>
         </div>

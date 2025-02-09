@@ -7,7 +7,6 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
 
-    // ✅ Ensure user is loaded from localStorage on mount
     useEffect(() => {
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
@@ -16,14 +15,12 @@ export const AuthProvider = ({ children }) => {
         }
     }, []);
 
-    // ✅ Login function: Stores user in state and localStorage
     const login = (userData) => {
         console.log("✅ AuthContext: Storing user", userData);
         localStorage.setItem("user", JSON.stringify(userData));
         setUser(userData);
     };
 
-    // ✅ Logout function: Clears user from state and localStorage
     const logout = () => {
         console.log("🚪 AuthContext: Logging out...");
         localStorage.removeItem("user");

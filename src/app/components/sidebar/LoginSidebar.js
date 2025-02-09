@@ -15,29 +15,34 @@ export default function LoginSidebar() {
   const signin = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch("/api/auth/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(credentials),
-      });
-      const responseText = await res.text();
-      try {
-        const data = JSON.parse(responseText);
+        const res = await fetch("/api/auth/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(credentials),
+        });
 
-        if (!res.ok) {
-          throw new Error(data.error || "Login failed");
+        const responseText = await res.text();
+
+        try {
+            const data = JSON.parse(responseText);
+
+            if (!res.ok) {
+                throw new Error(data.error || "Login failed");
+            }
+
+            // Store user data in localStorage
+            localStorage.setItem("user", JSON.stringify(data.user));
+
+            router.push("/profile");
+
+        } catch (parseError) {
+            throw new Error("Invalid server response");
         }
 
-        router.push("/home");
-
-      } catch (parseError) {
-        throw new Error("Invalid server response");
-      }
-
     } catch (error) {
-      alert(error.message || "Login failed. Try again.");
+        alert(error.message || "Login failed. Try again.");
     }
-  };
+};
 
 
   return (

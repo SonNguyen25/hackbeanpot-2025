@@ -34,6 +34,7 @@ import { Inter } from "next/font/google";
 import React from "react";
 import Sidebar from "@/app/components/Navbar";
 import { usePathname } from "next/navigation";
+import { AuthProvider } from "./context/AuthContext";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -49,8 +50,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className="flex bg-black text-primary">
-        {!hideSidebar && <Sidebar />}
-        <main className="flex-grow p-6">{children}</main>
+        <AuthProvider>
+          {!hideSidebar && <Sidebar />}
+          <main className="flex-grow p-6">{children}</main>
+        </AuthProvider>
       </body>
     </html>
   );

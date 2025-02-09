@@ -33,7 +33,7 @@ export default function RewardsList() {
           <h1 className="text-5xl font-bold text-green-500 mb-4 md:mb-0">
             Rewards
           </h1>
-          {!user.firstname.includes("Jonathan") && (
+          {user.firstname.includes("Jonathan") && (
             <Link
               href="/rewards/create"
               className="bg-gradient-to-r from-green-400 to-blue-500 font-bold text-white px-6 py-3 rounded-full flex items-center hover:opacity-90 transition-opacity"

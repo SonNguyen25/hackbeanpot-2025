@@ -29,7 +29,7 @@ export default function Sidebar() {
           {isLandingPage && (
             <>
               <SidebarLink href="/" icon={<Home />} text="Home" />
-              <SidebarLink href="/about" icon={<Compass />} text="About" />
+              <SidebarLink href="/https://devpost.com/software/earthbeats?ref_content=user-portfolio&ref_feature=in_progress" icon={<Compass />} text="About" />
             </>
           )}
           {!isLandingPage && (

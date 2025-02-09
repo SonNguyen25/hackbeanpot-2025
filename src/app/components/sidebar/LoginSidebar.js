@@ -13,15 +13,32 @@ export default function LoginSidebar() {
   });
 
   const signin = async (e) => {
-    e.preventDefault(); // Prevents page refresh
+    e.preventDefault();
     try {
-      const user = await client.signin(credentials);
-      alert(`Welcome, ${user.displayName}!`); // Replace with toast notification
-      router.push("/Home/Community"); // Navigate to Home
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(credentials),
+      });
+      const responseText = await res.text();
+      try {
+        const data = JSON.parse(responseText);
+
+        if (!res.ok) {
+          throw new Error(data.error || "Login failed");
+        }
+
+        router.push("/");
+
+      } catch (parseError) {
+        throw new Error("Invalid server response");
+      }
+
     } catch (error) {
-      alert("Login Failed! Try again."); // Replace with toast notification
+      alert(error.message || "Login failed. Try again.");
     }
   };
+
 
   return (
     <div className="flex flex-col items-center bg-black p-6 rounded-lg shadow-lg w-full max-w-sm">
@@ -31,7 +48,7 @@ export default function LoginSidebar() {
         <div className="mb-4">
           <label className="block font-semibold text-white">Username</label>
           <input
-            type="text"
+            type="email"
             className="w-full p-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
             value={credentials.email}
             onChange={(e) => setCredentials({ ...credentials, email: e.target.value })}

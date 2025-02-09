@@ -7,16 +7,13 @@ export default function FriendsPage() {
   const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-
-  // For this prototype, we'll use a dummy current user id.
-  // Replace "67a805dbf1f5534fde989cc2" with a valid ObjectId string from your database.
   const [currentUserId, setCurrentUserId] = useState(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       let storedUserId = localStorage.getItem("currentUserId");
       if (!storedUserId || storedUserId === "YOUR_TEST_USER_ID") {
-        storedUserId = "67a805dbf1f5534fde989cc2";
+        storedUserId = "67a805dbf1f5534fde989cc2"; // Replace with a valid ObjectId string.
         localStorage.setItem("currentUserId", storedUserId);
       }
       setCurrentUserId(storedUserId);
@@ -26,7 +23,8 @@ export default function FriendsPage() {
   useEffect(() => {
     async function fetchFriends() {
       try {
-        const res = await fetch(`/api/friends?userId=${currentUserId}`);
+        // Call the Flask endpoint running on port 8080.
+        const res = await fetch(`http://localhost:8080/friends?userId=${currentUserId}`);
         const data = await res.json();
         setFriends(data.recommendedFriends || []);
       } catch (err) {
@@ -59,7 +57,9 @@ export default function FriendsPage() {
 
   return (
     <div className="min-h-screen bg-black text-white p-6">
-      <h1 className="text-5xl font-bold text-green-500 text-center mb-8">Recommended Friends</h1>
+      <h1 className="text-5xl font-bold text-green-500 text-center mb-8">
+        Recommended Friends
+      </h1>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {friends.map((friend) => (
           <div

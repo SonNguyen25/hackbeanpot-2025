@@ -41,7 +41,7 @@ export default function RewardsList() {
             {/* Left Half: Details */}
             <div className="w-1/2 p-4 flex flex-col justify-center">
               <h2 className="text-3xl font-bold mb-2">{reward.title}</h2>
-              <p className="text-xl mb-1">{reward.description}</p>
+              <p className="text-xl mb-1">Desc: {reward.description}</p>
               <p className="text-lg mb-1">Owner: {reward.owner}</p>
               <p className="text-lg font-bold">Qty: {reward.quantity}</p>
             </div>

@@ -37,7 +37,7 @@ export default function Sidebar() {
               <SidebarLink href="/home" icon={<Home />} text="Home" />
               <SidebarLink href="/profile" icon={<User />} text="Profile" />
               <SidebarLink
-                href="/find-friends"
+                href="/friends"
                 icon={<Users />}
                 text="Find Friends"
               />

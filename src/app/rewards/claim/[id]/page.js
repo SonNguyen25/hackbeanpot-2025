@@ -1,8 +1,17 @@
-"use client";
+"use client"
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react"
+import { useParams, useRouter } from "next/navigation"
+import QRCode from "react-qr-code"
 
+export default function ClaimRewardPage() {
+  const { id } = useParams()
+  const router = useRouter()
+  const [reward, setReward] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [qrValue, setQrValue] = useState(null)
 export default function FriendsPage() {
   const [friends, setFriends] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -54,7 +63,7 @@ export default function FriendsPage() {
       <div className="min-h-screen bg-black text-white flex items-center justify-center">
         Please log in to view friend recommendations.
       </div>
-    );
+    )
   }
 
   return (

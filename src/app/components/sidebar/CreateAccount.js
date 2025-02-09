@@ -9,12 +9,15 @@ import { usersGenders, usersInterests, usersLocations } from "@/app/constants/us
 export default function CreateAccount() {
     const router = useRouter();
     const [credentials, setCredentials] = useState({
-        firstName: "",
-        lastName: "",
-        password: "",
+        firstname: "",
+        lastname: "",
         email: "",
-        phoneNumber: "",
         dob: "",
+        phone: "",
+        password: "",
+        gender: "",
+        location: "",
+        interests: "",
     });
 
     const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -33,7 +36,7 @@ export default function CreateAccount() {
     const register = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch("/api/auth/signup/route", {
+            const res = await fetch("/api/auth/signup", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -47,8 +50,9 @@ export default function CreateAccount() {
                 throw new Error(data.error || "Register failed");
             }
 
-            router.push("/sidebar/Questions"); // Redirect to Home
+            router.push("/home");
         } catch (error) {
+            console.log("This payload failed even more")
             alert(error.message || "Login failed. Try again.");
         }
     };
@@ -63,8 +67,8 @@ export default function CreateAccount() {
                     <input
                         type="text"
                         className="w-full p-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        value={credentials.firstName}
-                        onChange={(e) => setCredentials({ ...credentials, firstName: e.target.value })}
+                        value={credentials.firstname}
+                        onChange={(e) => setCredentials({ ...credentials, firstname: e.target.value })}
                     />
                 </div>
 
@@ -73,8 +77,8 @@ export default function CreateAccount() {
                     <input
                         type="text"
                         className="w-full p-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        value={credentials.lastName}
-                        onChange={(e) => setCredentials({ ...credentials, lastName: e.target.value })}
+                        value={credentials.lastname}
+                        onChange={(e) => setCredentials({ ...credentials, lastname: e.target.value })}
                     />
                 </div>
 
@@ -103,8 +107,8 @@ export default function CreateAccount() {
                     <input
                         type="tel"
                         className="w-full p-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-                        value={credentials.phoneNumber}
-                        onChange={(e) => setCredentials({ ...credentials, phoneNumber: e.target.value })}
+                        value={credentials.phone}
+                        onChange={(e) => setCredentials({ ...credentials, phone: e.target.value })}
                     />
                 </div>
 
@@ -116,6 +120,54 @@ export default function CreateAccount() {
                         value={credentials.dob}
                         onChange={(e) => setCredentials({ ...credentials, dob: e.target.value })}
                     />
+                </div>
+
+                <div className="mb-4">
+                    <label className="block font-semibold text-white">Gender</label>
+                    <select
+                        className="w-full p-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        value={credentials.gender}
+                        onChange={(e) => setCredentials({ ...credentials, gender: e.target.value })}
+                    >
+                        <option value="" disabled>Select Gender</option>
+                        {usersGenders.map((gender) => (
+                            <option key={gender} value={gender}>
+                                {gender}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="mb-4">
+                    <label className="block font-semibold text-white">Location</label>
+                    <select
+                        className="w-full p-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        value={credentials.location}
+                        onChange={(e) => setCredentials({ ...credentials, location: e.target.value })}
+                    >
+                        <option value="" disabled>Location</option>
+                        {usersLocations.map((location) => (
+                            <option key={location} value={location}>
+                                {location}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="mb-4">
+                    <label className="block font-semibold text-white">Interests</label>
+                    <select
+                        className="w-full p-2 rounded-md bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
+                        value={credentials.interests}
+                        onChange={(e) => setCredentials({ ...credentials, interests: e.target.value })}
+                    >
+                        <option value="" disabled>Interests</option>
+                        {usersInterests.map((interests) => (
+                            <option key={interests} value={interests}>
+                                {interests}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
                 <button

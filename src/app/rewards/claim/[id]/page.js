@@ -1,201 +1,109 @@
-"use client";
+"use client"
 
-import { useState, useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
-import QRCode from "react-qr-code";
+import { useState, useEffect } from "react"
+import { useParams, useRouter } from "next/navigation"
+import QRCode from "react-qr-code"
 
 export default function ClaimRewardPage() {
-  const { id } = useParams();
-  const router = useRouter();
-  const [reward, setReward] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [qrValue, setQrValue] = useState(null);
+  const { id } = useParams()
+  const router = useRouter()
+  const [reward, setReward] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [qrValue, setQrValue] = useState(null)
 
   useEffect(() => {
     if (id) {
-      const storedRewards = localStorage.getItem("rewards");
-      const rewards = storedRewards ? JSON.parse(storedRewards) : [];
-      const foundReward = rewards.find((r) => r.id.toString() === id);
-      setReward(foundReward);
-      setLoading(false);
+      const storedRewards = localStorage.getItem("rewards")
+      const rewards = storedRewards ? JSON.parse(storedRewards) : []
+      const foundReward = rewards.find((r) => r.id.toString() === id)
+      setReward(foundReward)
+      setLoading(false)
     }
-  }, [id]);
+  }, [id])
 
   const handleClaim = () => {
-    const storedRewards = localStorage.getItem("rewards");
-    let rewards = storedRewards ? JSON.parse(storedRewards) : [];
-    const rewardIndex = rewards.findIndex((r) => r.id.toString() === id);
+    const storedRewards = localStorage.getItem("rewards")
+    let rewards = storedRewards ? JSON.parse(storedRewards) : []
+    const rewardIndex = rewards.findIndex((r) => r.id.toString() === id)
     if (rewardIndex > -1) {
       if (rewards[rewardIndex].quantity > 1) {
-        rewards[rewardIndex].quantity -= 1;
+        rewards[rewardIndex].quantity -= 1
       } else {
-        rewards = rewards.filter((r) => r.id.toString() !== id);
+        rewards = rewards.filter((r) => r.id.toString() !== id)
       }
-      localStorage.setItem("rewards", JSON.stringify(rewards));
+      localStorage.setItem("rewards", JSON.stringify(rewards))
     }
-    // Generate a random code for the QR code.
-    const randomCode = Math.random().toString(36).substring(2, 10);
-    setQrValue(randomCode);
-  };
+    const randomCode = Math.random().toString(36).substring(2, 10)
+    setQrValue(randomCode)
+  }
 
   if (loading) {
-    return <div style={styles.pageContainer}>Loading...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center bg-black">
+        <div className="h-8 w-8 animate-spin rounded-full border-4 border-green-500 border-t-transparent"></div>
+      </div>
+    )
   }
 
   if (!reward) {
     return (
-      <div style={styles.pageContainer}>
+      <div className="flex h-screen items-center justify-center bg-black text-white">
         Reward not found or fully claimed.
       </div>
-    );
+    )
   }
 
   return (
-    <div style={styles.pageContainer}>
-      <h1 style={styles.heading}>Claim Reward</h1>
-      <div style={styles.rewardCard}>
-        <div style={styles.cardContent}>
-          {/* Left Half: Details */}
-          <div style={styles.textSection}>
-            <h2 style={styles.rewardTitle}>{reward.title}</h2>
-            <p style={styles.rewardDescription}>{reward.description}</p>
-            <p style={styles.ownerLabel}>Owner: {reward.owner}</p>
-            <p style={styles.quantityLabel}>Quantity Available: {reward.quantity}</p>
-            {qrValue ? (
-              <div style={styles.qrContainer}>
-                <p style={styles.qrText}>Show this QR code at the store:</p>
-                <QRCode value={qrValue} size={128} />
-                <p style={styles.qrValue}>Code: {qrValue}</p>
+    <div className="min-h-screen bg-black p-4 text-white">
+      <h1 className="mb-8 text-center text-4xl font-bold text-green-500">Claim Reward</h1>
+      <div className="mx-auto max-w-4xl overflow-hidden rounded-lg bg-green-100 text-black">
+        <div className="p-6">
+          <h2 className="mb-4 text-3xl font-bold">{reward.title}</h2>
+          <div className="flex flex-col md:flex-row">
+            <div className="flex-1 space-y-4">
+              <p className="text-lg">{reward.description}</p>
+              <p className="text-lg">
+                <span className="font-semibold">Owner:</span> {reward.owner}
+              </p>
+              <p className="text-lg font-bold">Quantity Available: {reward.quantity}</p>
+              {qrValue ? (
+                <div className="space-y-4 text-center">
+                  <p className="text-lg font-semibold">Show this QR code at the store:</p>
+                  <div className="mx-auto w-32">
+                    <QRCode value={qrValue} size={128} />
+                  </div>
+                  <p className="text-lg">
+                    Code: <span className="font-mono font-bold">{qrValue}</span>
+                  </p>
+                  <button
+                    onClick={() => router.push("/rewards")}
+                    className="rounded bg-green-500 px-4 py-2 font-bold text-black hover:bg-green-600"
+                  >
+                    Done
+                  </button>
+                </div>
+              ) : (
                 <button
-                  onClick={() => router.push("/rewards")}
-                  style={styles.doneButton}
+                  onClick={handleClaim}
+                  className="rounded bg-green-500 px-4 py-2 font-bold text-black hover:bg-green-600"
                 >
-                  Done
+                  Claim Reward
                 </button>
+              )}
+            </div>
+            {reward.image && (
+              <div className="mt-4 flex flex-1 items-center justify-center md:mt-0">
+                <img
+                  src={reward.image || "/placeholder.svg"}
+                  alt={reward.title}
+                  className="max-h-80 w-full rounded-lg object-contain"
+                />
               </div>
-            ) : (
-              <button onClick={handleClaim} style={styles.claimButton}>
-                Claim Reward
-              </button>
             )}
           </div>
-          {/* Right Half: Image */}
-          {reward.image && (
-            <div style={styles.imageSection}>
-              <img
-                src={reward.image}
-                alt={reward.title}
-                style={styles.rewardImage}
-              />
-            </div>
-          )}
         </div>
       </div>
     </div>
-  );
+  )
 }
-
-const styles = {
-  pageContainer: {
-    backgroundColor: "#000", // Black background
-    minHeight: "100vh",
-    color: "#fff",
-    padding: "20px",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  heading: {
-    textAlign: "center",
-    fontSize: "48px",
-    marginBottom: "20px",
-    color: "#1db954", // Spotify green accent
-  },
-  rewardCard: {
-    backgroundColor: "#90ee90", // Light green background
-    color: "#000", // Dark text for readability
-    padding: "40px",
-    borderRadius: "10px",
-    maxWidth: "800px",
-    width: "100%",
-    margin: "0 auto",
-    border: "2px solid #1db954",
-    boxSizing: "border-box",
-  },
-  cardContent: {
-    display: "flex",
-    flexDirection: "row", // Horizontal split: left for text, right for image.
-  },
-  textSection: {
-    flex: 1,
-    paddingRight: "20px",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-  },
-  imageSection: {
-    flex: 1,
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: "10px",
-  },
-  rewardTitle: {
-    fontSize: "32px",
-    marginBottom: "10px",
-  },
-  rewardDescription: {
-    fontSize: "20px",
-    marginBottom: "10px",
-  },
-  ownerLabel: {
-    fontSize: "20px",
-    marginBottom: "10px",
-  },
-  quantityLabel: {
-    fontSize: "20px",
-    fontWeight: "bold",
-    marginBottom: "20px",
-  },
-  claimButton: {
-    padding: "15px 30px",
-    backgroundColor: "#1db954",
-    color: "#000",
-    border: "none",
-    borderRadius: "5px",
-    fontWeight: "bold",
-    fontSize: "20px",
-    cursor: "pointer",
-  },
-  qrContainer: {
-    textAlign: "center",
-    marginTop: "20px",
-  },
-  qrText: {
-    fontSize: "20px",
-    marginBottom: "10px",
-  },
-  qrValue: {
-    fontSize: "18px",
-    marginTop: "10px",
-  },
-  doneButton: {
-    marginTop: "20px",
-    padding: "15px 30px",
-    backgroundColor: "#1db954",
-    color: "#000",
-    border: "none",
-    borderRadius: "5px",
-    fontWeight: "bold",
-    fontSize: "20px",
-    cursor: "pointer",
-  },
-  // Updated rewardImage: now ensuring full image is visible.
-  rewardImage: {
-    width: "100%",
-    height: "100%",
-    objectFit: "contain", // Scales down the entire image to fit in container.
-    borderRadius: "5px",
-  },
-};
 

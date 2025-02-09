@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import {
   GoogleMap,
-  LoadScript,
+  LoadScriptNext,
   Marker,
   InfoWindow,
   DirectionsRenderer,
@@ -141,12 +141,19 @@ export default function GoogleMapComponent() {
   const [stopInputRef, setStopInputRef] = useState(null);
   const [earnedCoins, setEarnedCoins] = useState({});
 
+  
+
   useEffect(() => {
-    const style = document.createElement("style");
+    const style = document.createElement('style');
     style.textContent = controlStyles;
     document.head.appendChild(style);
-    return () => document.head.removeChild(style);
-  }, []);
+
+    return () => {
+        if (style.parentNode) { 
+            style.parentNode.removeChild(style);
+        }
+    };
+}, []);
 
   useEffect(() => {
     if (navigator.geolocation) {
@@ -163,7 +170,7 @@ export default function GoogleMapComponent() {
   }, []);
 
   const fetchEcoFriendlyPlaces = useCallback(async () => {
-    if (!userLocation || !destination || !directions) return; // ✅ Ensures valid input
+    if (!userLocation || !destination || !directions) return; 
 
     if (typeof window !== "undefined" && window.google?.maps) {
       const map = new window.google.maps.Map(document.createElement("div"));
@@ -434,7 +441,7 @@ export default function GoogleMapComponent() {
   
   
   return (
-    <LoadScript
+    <LoadScriptNext 
       googleMapsApiKey={googleMapsApiKey}
       libraries={["places"]}
       onLoad={() => setMapLoaded(true)}
@@ -491,7 +498,7 @@ export default function GoogleMapComponent() {
                 </Autocomplete>
                 <button
                   onClick={handleManualStopAdd}
-                  className="bg-green-500 text-white px-4 py-2 rounded-md mt-2 hover:bg-green-600 transition w-full"
+                  className="bg-gradient-to-r from-green-400 to-blue-500 font-bold text-white px-4 py-2 rounded-md mt-2 hover:bg-green-600 transition w-full"
                 >
                   Add Stop
                 </button>
@@ -654,6 +661,6 @@ export default function GoogleMapComponent() {
           </div>
         </div>
       </div>
-    </LoadScript>
+    </LoadScriptNext >
   );
 }

@@ -3,39 +3,49 @@
 import { useState, useEffect, useRef } from "react";
 
 export default function VoiceEmotionPage() {
-  // accessToken will be null if the user is not logged in.
   const [accessToken, setAccessToken] = useState(null);
   const [recording, setRecording] = useState(false);
-  const [statusText, setStatusText] = useState("Please log in with Spotify.");
+  const [statusText, setStatusText] = useState("");
   const [result, setResult] = useState(null);
   const mediaRecorderRef = useRef(null);
   const audioChunksRef = useRef([]);
 
-  // On mount, check if there's an accessToken in the URL or in localStorage.
+  // On mount, check for an access token in the URL or localStorage.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const tokenFromUrl = params.get("accessToken");
     if (tokenFromUrl) {
       localStorage.setItem("spotifyAccessToken", tokenFromUrl);
       setAccessToken(tokenFromUrl);
-      // Clean the URL so the token isn't visible.
       window.history.replaceState(null, "", window.location.pathname);
     } else {
       const storedToken = localStorage.getItem("spotifyAccessToken");
-      if (storedToken) {
-        setAccessToken(storedToken);
-      }
+      if (storedToken) setAccessToken(storedToken);
     }
-  }, []);
+    // Set an initial status if token is present.
+    if (accessToken) {
+      setStatusText("Ready to record your voice!");
+    }
+  }, [accessToken]);
 
-  // When the user clicks this button, they are redirected to your Flask login endpoint.
+  // Redirect to the Flask login endpoint.
   const handleLogin = () => {
     const redirectUrl = encodeURIComponent(window.location.href);
     window.location.href = `http://localhost:8080/login?redirectUrl=${redirectUrl}`;
   };
 
-  // Start recording using the browser's MediaRecorder API.
+  // Logout: clear token from localStorage and refresh.
+  const handleLogout = () => {
+    localStorage.removeItem("spotifyAccessToken");
+    setAccessToken(null);
+    setStatusText("");
+    setResult(null);
+    window.location.reload();
+  };
+
+  // Start recording: clear previous result, request microphone access.
   const startRecording = async () => {
+    setResult(null); // Clear previous result.
     setStatusText("Requesting microphone access...");
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -51,13 +61,11 @@ export default function VoiceEmotionPage() {
 
       mediaRecorder.onstop = async () => {
         setStatusText("Recording stopped. Processing...");
-        // Combine the audio chunks into a Blob.
         const audioBlob = new Blob(audioChunksRef.current, { type: "audio/wav" });
         const formData = new FormData();
         formData.append("audio", audioBlob, "recording.wav");
 
         try {
-          // Send the recording to our Next.js API route, which forwards it to your Flask backend.
           const response = await fetch("/api/process_audio", {
             method: "POST",
             headers: {
@@ -105,55 +113,123 @@ export default function VoiceEmotionPage() {
     }
   };
 
+  // Toggle recording button.
+  const toggleRecording = () => {
+    if (recording) {
+      stopRecording();
+    } else {
+      startRecording();
+    }
+  };
+
   return (
-    <div style={{ fontFamily: "Arial, sans-serif", textAlign: "center", padding: "20px" }}>
-      <h1>Voice Emotion to Spotify</h1>
-      {!accessToken ? (
-        <div>
-          <p>You must log in with Spotify to record your voice and add songs to your queue.</p>
-          <button
-            onClick={handleLogin}
-            style={{
-              fontSize: "18px",
-              padding: "10px 20px",
-              margin: "10px",
-              cursor: "pointer",
-            }}
-          >
-            Login with Spotify
-          </button>
+    <div className="page-wrapper">
+      {/* Navigation Bar */}
+      <nav className="navbar">
+        <div className="nav-left">
+          <a href="/">Home</a>
         </div>
-      ) : (
-        <div>
-          <p>Logged in with Spotify.</p>
-          <button
-            onClick={startRecording}
-            disabled={recording}
-            style={{
-              fontSize: "18px",
-              padding: "10px 20px",
-              margin: "10px",
-              cursor: "pointer",
-            }}
-          >
-            Start Recording
-          </button>
-          <button
-            onClick={stopRecording}
-            disabled={!recording}
-            style={{
-              fontSize: "18px",
-              padding: "10px 20px",
-              margin: "10px",
-              cursor: "pointer",
-            }}
-          >
-            Stop Recording
-          </button>
+        <div className="nav-right">
+          {accessToken && (
+            <button onClick={handleLogout} className="logout-button">
+              Logout
+            </button>
+          )}
         </div>
-      )}
-      <p style={{ fontWeight: "bold", marginTop: "20px" }}>{statusText}</p>
-      <div style={{ marginTop: "20px" }}>{result}</div>
+      </nav>
+      {/* Main Content */}
+      <div className="container">
+        <h1>Voice Emotion to Spotify</h1>
+        {!accessToken ? (
+          <div>
+            <button onClick={handleLogin} className="login-button">
+              Login with Spotify
+            </button>
+          </div>
+        ) : (
+          <div>
+            <p className="info-text">Logged in with Spotify.</p>
+            <button onClick={toggleRecording} className="record-button">
+              {recording ? "Stop Recording" : "Start Recording"}
+            </button>
+          </div>
+        )}
+        <p className="status">{statusText}</p>
+        <div className="result">{result}</div>
+      </div>
+
+      <style jsx>{`
+        .page-wrapper {
+          min-height: 100vh;
+          background-color: #000;
+          color: #fff;
+          display: flex;
+          flex-direction: column;
+        }
+        .navbar {
+          width: 100%;
+          padding: 20px 40px;
+          background-color: #111;
+          border-bottom: 2px solid #1db954;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+        .navbar a {
+          color: #1db954;
+          text-decoration: none;
+          font-size: 26px;
+        }
+        .logout-button {
+          background-color: #ff4c4c;
+          color: #fff;
+          border: none;
+          padding: 12px 24px;
+          border-radius: 5px;
+          font-size: 20px;
+          cursor: pointer;
+        }
+        .container {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          padding: 40px;
+        }
+        h1 {
+          margin-bottom: 30px;
+          font-size: 56px;
+        }
+        .info-text {
+          font-size: 28px;
+          margin: 15px 0;
+        }
+        button {
+          font-size: 24px;
+          padding: 15px 30px;
+          margin: 15px;
+          cursor: pointer;
+          border: none;
+          border-radius: 5px;
+        }
+        .login-button,
+        .record-button {
+          background-color: #1db954;
+          color: #000;
+        }
+        .status {
+          font-weight: bold;
+          margin-top: 30px;
+          font-size: 32px;
+        }
+        .result {
+          margin-top: 30px;
+          text-align: center;
+          font-size: 28px;
+        }
+      `}</style>
     </div>
   );
 }

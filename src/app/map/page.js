@@ -5,7 +5,7 @@ export default function Map() {
 
   return (
     <div>
-      <h1>Drive Green, Stay Green: Eco-Friendly Destinations on Your Route</h1>
+      {/* <h1>Drive Green, Stay Green: Eco-Friendly Destinations on Your Route</h1> */}
       <GoogleMapComponent />
     </div>
   );

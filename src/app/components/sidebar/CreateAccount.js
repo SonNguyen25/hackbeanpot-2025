@@ -33,7 +33,7 @@ export default function CreateAccount() {
     const register = async (e) => {
         e.preventDefault();
         try {
-            const res = await fetch("/api/auth/signup", {
+            const res = await fetch("/api/auth/signup/route", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",

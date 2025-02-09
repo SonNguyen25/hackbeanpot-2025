@@ -1,4 +1,3 @@
-import { N } from "framer-motion/dist/types.d-6pKw1mTI";
 import mongoose from "mongoose";
 const {
   usersInterests,

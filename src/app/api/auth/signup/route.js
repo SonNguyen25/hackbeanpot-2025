@@ -1,5 +1,5 @@
 import { connectToDatabase } from "@/app/api/connect-database";
-import User from "@/app/api/models/User";
+import User from "@/app/api/users/users-model";
 import bcrypt from "bcryptjs";
 
 export async function POST(req) {
@@ -23,7 +23,8 @@ export async function POST(req) {
 
     // Create new user
     const newUser = await User.create({
-      name,
+      firstName,
+      lastName,
       email,
       phone,
       password: hashedPassword,

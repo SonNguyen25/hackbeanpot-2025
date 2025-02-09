@@ -1,5 +1,5 @@
 import { connectToDatabase } from "@/app/api/connect-database";
-import User from "@/app/api/models/User";
+import User from "@/app/api/users/users-model";
 
 export async function GET(req) {
     try {

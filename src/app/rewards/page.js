@@ -13,44 +13,45 @@ export default function RewardsList() {
     if (storedRewards) {
       setRewards(JSON.parse(storedRewards));
     } else {
-      // Optional fallback data if needed
       setRewards([]);
     }
   }, []);
 
   return (
-    <div style={styles.pageContainer}>
-      {/* Navigation Header */}
-      <div style={styles.navHeader}>
-        <h1 style={styles.headerTitle}>Rewards</h1>
-        <Link href="/rewards/create" style={styles.createButton}>
+    <div className="min-h-screen bg-black text-white p-6 flex flex-col items-center">
+      {/* Header */}
+      <div className="w-full max-w-5xl flex justify-between items-center mb-8">
+        <h1 className="text-5xl font-bold text-green-500">Rewards</h1>
+        <Link
+          href="/rewards/create"
+          className="bg-green-500 text-black px-6 py-2 rounded-md text-xl font-semibold"
+        >
           Create Reward
         </Link>
       </div>
 
-      {/* Three-Column Grid */}
-      <div style={styles.gridContainer}>
+      {/* Rewards Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-6xl">
         {rewards.map((reward) => (
           <div
             key={reward.id}
-            style={styles.rewardCard}
             onClick={() => router.push(`/rewards/claim/${reward.id}`)}
+            className="bg-green-200 text-black rounded-xl border-2 border-green-500 flex flex-row overflow-hidden aspect-square cursor-pointer hover:scale-105 transition-transform"
           >
-            {/* Top Half: Details */}
-            <div style={styles.detailsSection}>
-              <h2 style={styles.rewardTitle}>{reward.title}</h2>
-              <p style={styles.rewardDescription}>{reward.description}</p>
-              <p style={styles.ownerLabel}>Owner: {reward.owner}</p>
-              <p style={styles.quantityLabel}>Qty: {reward.quantity}</p>
+            {/* Left Half: Details */}
+            <div className="w-1/2 p-4 flex flex-col justify-center">
+              <h2 className="text-3xl font-bold mb-2">{reward.title}</h2>
+              <p className="text-xl mb-1">{reward.description}</p>
+              <p className="text-lg mb-1">Owner: {reward.owner}</p>
+              <p className="text-lg font-bold">Qty: {reward.quantity}</p>
             </div>
-
-            {/* Bottom Half: Image */}
-            <div style={styles.imageSection}>
+            {/* Right Half: Image */}
+            <div className="w-1/2 flex items-center justify-center p-2">
               {reward.image && (
                 <img
                   src={reward.image}
                   alt={reward.title}
-                  style={styles.rewardImage}
+                  className="w-full h-full object-contain"
                 />
               )}
             </div>
@@ -60,84 +61,3 @@ export default function RewardsList() {
     </div>
   );
 }
-
-const styles = {
-  pageContainer: {
-    backgroundColor: "#000", // Black background
-    minHeight: "100vh",
-    color: "#fff",
-    padding: "20px",
-  },
-  navHeader: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    padding: "10px 20px",
-    borderBottom: "2px solid #0f0",
-    marginBottom: "20px",
-  },
-  headerTitle: {
-    fontSize: "48px",
-    margin: 0,
-  },
-  createButton: {
-    padding: "10px 20px",
-    backgroundColor: "#0f0", // Bright green button
-    color: "#000",
-    textDecoration: "none",
-    borderRadius: "5px",
-    fontWeight: "bold",
-    fontSize: "18px",
-  },
-  gridContainer: {
-    display: "grid",
-    gridTemplateColumns: "repeat(3, 1fr)", // Three columns
-    gap: "20px",
-  },
-  rewardCard: {
-    backgroundColor: "#90EE90", // Light green background
-    color: "#000", // Dark text for readability
-    borderRadius: "10px",
-    border: "2px solid #0f0",
-    cursor: "pointer",
-    display: "flex",
-    flexDirection: "column",
-    aspectRatio: "1 / 1", // Force a square shape
-    overflow: "hidden",
-  },
-  detailsSection: {
-    padding: "10px",
-    flex: "1 1 50%", // Top half of the card
-  },
-  imageSection: {
-    flex: "1 1 50%", // Bottom half of the card
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#90EE90", // Same light green as card background
-  },
-  rewardTitle: {
-    fontSize: "24px",
-    margin: "0 0 5px 0",
-  },
-  rewardDescription: {
-    fontSize: "16px",
-    margin: "0 0 5px 0",
-  },
-  ownerLabel: {
-    fontSize: "14px",
-    margin: "0 0 5px 0",
-  },
-  quantityLabel: {
-    fontSize: "14px",
-    fontWeight: "bold",
-  },
-  rewardImage: {
-    maxWidth: "100%",       // Do not exceed container's width
-    maxHeight: "100%",      // Do not exceed container's height
-    objectFit: "contain",   // Scale image down as necessary without cutting it off
-    display: "block",
-    margin: "0 auto",       // Center the image horizontally
-  },
-};
-

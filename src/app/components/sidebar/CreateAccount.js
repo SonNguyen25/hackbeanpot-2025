@@ -61,7 +61,7 @@ export default function CreateAccount() {
     };
 
     return (
-        <div className="flex flex-col items-center p-6 rounded-lg shadow-lg w-full max-w-sm">
+        <div className="flex flex-col items-center p-6 rounded-lg shadow-lg w-full max-w-sm bg-green-700">
             <h1 className="text-3xl font-bold text-gradient mb-4">Welcome!</h1>
 
             {step === 1 ? (

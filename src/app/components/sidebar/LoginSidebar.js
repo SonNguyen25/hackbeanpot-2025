@@ -15,6 +15,7 @@ export default function LoginSidebar() {
   const signin = async (e) => {
     e.preventDefault();
     try {
+
         const res = await fetch("/api/auth/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -46,7 +47,7 @@ export default function LoginSidebar() {
 
 
   return (
-    <div className="flex flex-col items-center bg-gray p-6 rounded-lg shadow-lg w-full max-w-sm">
+    <div className="flex flex-col items-center bg-black p-6 rounded-lg shadow-lg w-full max-w-sm">
       <h1 className="text-3xl font-bold text-gradient mb-4">Welcome Back!</h1>
 
       <form className="w-full" onSubmit={signin}>

@@ -66,6 +66,8 @@ export default function ClaimRewardPage() {
                 <span className="font-semibold">Owner:</span> {reward.owner}
               </p>
               <p className="text-lg font-bold">Quantity Available: {reward.quantity}</p>
+
+              <p className="text-lg font-bold">Coins Required: {reward.coins}</p>
               {qrValue ? (
                 <div className="space-y-4 text-center">
                   <p className="text-lg font-semibold">Show this QR code at the store:</p>
